@@ -33,7 +33,12 @@ if ! ssh "$HOST" "test -f $REMOTE_DATA/wangshu.db"; then
   : "${ADMIN_PASSWORD:?首次 seed 必须设置 ADMIN_PASSWORD}"
   ssh "$HOST" "cd $REMOTE_APP && ADMIN_PASSWORD='$ADMIN_PASSWORD' ALLOW_DB_RESET=1 DATABASE_URL=$REMOTE_DATA/wangshu.db /opt/node/bin/tsx src/db/seed.ts"
 fi
-ssh "$HOST" "sudo systemctl restart wangshu-api && sleep 3 && curl --max-time 8 -fsS http://127.0.0.1:3100/api/health"
+ssh "$HOST" 'sudo systemctl restart wangshu-api
+for i in 1 2 3 4 5 6; do
+  if curl --max-time 3 -fsS http://127.0.0.1:3100/api/health; then exit 0; fi
+  sleep 1
+done
+exit 1'
 
 echo
 echo "部署完成：http://$WEB_HOST/"

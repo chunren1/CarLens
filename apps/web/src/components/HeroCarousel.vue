@@ -193,6 +193,7 @@ watch(slides, () => {
 <style scoped>
 .hero-carousel {
   position: relative;
+  overflow: hidden;
   padding: 14px var(--space-4) 0;
   background: var(--surface);
 }
@@ -462,6 +463,15 @@ watch(slides, () => {
     left: var(--space-4);
     right: var(--space-4);
     bottom: 18px;
+  }
+
+  /* 12 个车型时移动端 dots 会挤出视口；改用箭头 + 计数器。 */
+  .hero-carousel__dots {
+    display: none;
+  }
+
+  .hero-carousel__count {
+    margin-left: auto;
   }
 }
 

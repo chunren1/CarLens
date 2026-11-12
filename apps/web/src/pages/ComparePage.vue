@@ -4,6 +4,7 @@ import { RouterLink } from "vue-router";
 import type { ModelDetail } from "../lib/api";
 import { api, errorMessage } from "../lib/api";
 import { money } from "../lib/format";
+import { assetUrl } from "../lib/assets";
 
 const details = shallowRef<ModelDetail[]>([]);
 const state = ref<"loading" | "ready" | "error">("loading");
@@ -113,6 +114,28 @@ onMounted(() => {
       </table>
     </div>
 
+    <div v-if="state === 'ready'" class="compare-mobile">
+      <article v-for="model in models" :key="model.slug" class="compare-mobile__card">
+        <img :src="assetUrl(model.heroImage)" :alt="model.name + ' 车型海报'" loading="lazy" />
+        <div class="compare-mobile__body">
+          <p class="eyebrow">{{ model.brand }}</p>
+          <h2 class="compare-mobile__name">{{ model.name }}</h2>
+          <p class="compare-mobile__tagline">{{ model.tagline }}</p>
+          <dl class="compare-mobile__specs">
+            <div><dt>起售价</dt><dd>{{ money(model.priceFrom) }}</dd></div>
+            <div><dt>续航</dt><dd>{{ range(model) }} km</dd></div>
+            <div><dt>最快零百</dt><dd>{{ bestZero(model) }} s</dd></div>
+            <div><dt>最大功率</dt><dd>{{ maxPower(model) }} kW</dd></div>
+            <div><dt>座位</dt><dd>{{ model.seats }} 座</dd></div>
+            <div><dt>版本数</dt><dd>{{ model.trims.length }}</dd></div>
+          </dl>
+          <RouterLink :to="{ name: 'configurator', params: { slug: model.slug } }" class="btn btn--primary btn--sm">
+            配置 {{ model.name }}
+          </RouterLink>
+        </div>
+      </article>
+    </div>
+
     <div class="compare-cta">
       <p class="eyebrow">还是选不出来？</p>
       <h2 class="section-title">让向导替你缩小范围</h2>
@@ -196,11 +219,65 @@ onMounted(() => {
   border-top: 1px solid var(--line);
 }
 
+.compare-mobile {
+  display: none;
+}
+
 @media (max-width: 720px) {
-  .compare {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+  .compare-wrap {
+    display: none;
+  }
+
+  .compare-mobile {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .compare-mobile__card {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+  }
+
+  .compare-mobile__card > img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .compare-mobile__body {
+    padding: var(--space-4);
+  }
+
+  .compare-mobile__name {
+    margin-top: 4px;
+    font-family: var(--font-display);
+    font-size: 24px;
+  }
+
+  .compare-mobile__tagline {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .compare-mobile__specs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-block: var(--space-4);
+  }
+
+  .compare-mobile__specs dt {
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .compare-mobile__specs dd {
+    margin-top: 2px;
+    font-family: var(--font-mono);
+    font-size: 13px;
   }
 }
 </style>
