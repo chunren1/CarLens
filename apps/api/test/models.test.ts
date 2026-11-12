@@ -18,7 +18,7 @@ describe("车型目录 API", () => {
     expect(response.statusCode).toBe(200);
 
     const models = response.json<ModelSummary[]>();
-    expect(models).toHaveLength(12);
+    expect(models).toHaveLength(20);
     expect(models.map((model) => model.slug)).toEqual([
       "r1",
       "s7",
@@ -32,6 +32,14 @@ describe("车型目录 API", () => {
       "aito-m7",
       "leapmotor-c10",
       "aion-i60",
+      "xpeng-g6",
+      "xpeng-g9",
+      "nio-es6",
+      "li-l7",
+      "aito-m5",
+      "leapmotor-c11",
+      "xiaomi-yu7",
+      "zeekr-7x",
     ]);
     expect(models[0]).toMatchObject({
       name: "比亚迪 海豹",

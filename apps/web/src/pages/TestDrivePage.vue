@@ -14,6 +14,8 @@ const submitting = ref(false);
 const submitError = ref("");
 const result = shallowRef<TestDriveResult | null>(null);
 
+const minSlot = new Date(Date.now() + 60 * 60 * 1000).toISOString().slice(0, 16);
+
 const form = reactive({
   name: "",
   phone: "",
@@ -53,6 +55,7 @@ function validate(): string {
   if (!form.modelSlug) return "请选择车型";
   if (!form.storeId) return "请选择门店";
   if (!form.slot) return "请选择期望到店时间";
+  if (new Date(form.slot).getTime() < Date.now()) return "期望到店时间不能早于当前时间";
   return "";
 }
 
@@ -149,7 +152,7 @@ onMounted(() => {
           </div>
           <div class="field">
             <label class="field__label" for="td-slot">期望到店时间</label>
-            <input id="td-slot" v-model="form.slot" class="input" type="datetime-local" />
+            <input id="td-slot" v-model="form.slot" class="input" type="datetime-local" :min="minSlot" />
           </div>
           <p v-if="submitError" class="form__error" role="alert">{{ submitError }}</p>
           <button type="submit" class="btn btn--primary btn--lg btn--block" :disabled="submitting">

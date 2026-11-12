@@ -68,7 +68,7 @@ describe("admin", () => {
       cookies: { ws_sid: token },
     });
     expect(summary.statusCode).toBe(200);
-    expect(summary.json<{ models: number; orders: number }>().models).toBe(12);
+    expect(summary.json<{ models: number; orders: number }>().models).toBe(20);
     expect(summary.json<{ orders: number }>().orders).toBe(1);
 
     const orders = await ctx.app.inject({

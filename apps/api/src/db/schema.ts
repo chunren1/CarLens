@@ -231,3 +231,23 @@ export const news = sqliteTable("news", {
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),
 });
+
+
+export const modelPaintImages = sqliteTable(
+  "model_paint_images",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    modelId: integer("model_id")
+      .notNull()
+      .references(() => models.id),
+    paintId: integer("paint_id")
+      .notNull()
+      .references(() => paints.id),
+    imagePath: text("image_path").notNull(),
+    source: text("source").notNull().default("ai"),
+    prompt: text("prompt"),
+    reviewed: integer("reviewed").notNull().default(0),
+    createdAt: text("created_at").notNull(),
+  },
+  (table) => [uniqueIndex("model_paint_unique").on(table.modelId, table.paintId)],
+);

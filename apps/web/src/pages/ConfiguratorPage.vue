@@ -23,6 +23,10 @@ const store = useConfiguratorStore();
 const slug = computed(() => String(route.params.slug ?? ""));
 const modelName = computed(() => store.catalog?.model.name ?? "车鉴");
 const heroImage = computed(() => assetUrl(store.catalog?.model.heroImage ?? "/images/seal-hero.webp"));
+const paintImage = computed(() => {
+  const image = store.selectedPaint?.image;
+  return image ? assetUrl(image) : heroImage.value;
+});
 
 function readDisplayMode(): DisplayMode {
   try {
@@ -177,7 +181,7 @@ function handleOrder(): void {
         <img
           class="stage-photo"
           :class="{ 'stage-photo--hidden': displayMode === '3d' && stageReady }"
-          :src="heroImage"
+          :src="paintImage"
           :alt="modelName + ' 高清海报'"
         />
         <div

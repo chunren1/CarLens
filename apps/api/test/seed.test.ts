@@ -45,15 +45,15 @@ describe("seed", () => {
   it("writes the Demo v0.1 catalog", async () => {
     await seed(temp.db);
     expect(counts(temp.db)).toEqual({
-      models: 12,
-      trims: 29,
+      models: 20,
+      trims: 45,
       paints: 5,
       wheels: 3,
       interiors: 2,
       packages: 3,
       stores: 4,
-      modelOptions: 156,
-      rules: 12,
+      modelOptions: 260,
+      rules: 20,
       settings: 8,
     });
   });
@@ -82,6 +82,14 @@ describe("seed", () => {
       "aito-m7",
       "leapmotor-c10",
       "aion-i60",
+      "xpeng-g6",
+      "xpeng-g9",
+      "nio-es6",
+      "li-l7",
+      "aito-m5",
+      "leapmotor-c11",
+      "xiaomi-yu7",
+      "zeekr-7x",
     ]);
   });
 });

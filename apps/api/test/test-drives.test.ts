@@ -43,6 +43,28 @@ describe("test drive appointments", () => {
     }
   });
 
+  it("rejects a past test-drive slot", async () => {
+    const ctx = await openApiContext();
+    try {
+      const storeId = await firstStoreId(ctx.app);
+      const response = await ctx.app.inject({
+        method: "POST",
+        url: "/api/test-drives",
+        payload: {
+          name: "张三",
+          phone: "13800138000",
+          modelSlug: "s7",
+          storeId,
+          slot: "2020-01-01 10:00",
+        },
+      });
+      expect(response.statusCode).toBe(400);
+      expect(response.json()).toMatchObject({ code: "SLOT_IN_PAST" });
+    } finally {
+      await ctx.close();
+    }
+  });
+
   it("rejects an invalid phone number", async () => {
     const ctx = await openApiContext();
     try {

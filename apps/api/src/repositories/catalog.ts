@@ -13,6 +13,7 @@ import type { AppDb } from "../db/client";
 import {
   interiors,
   modelOptions,
+  modelPaintImages,
   models,
   optionRules,
   packages,
@@ -82,12 +83,19 @@ function toOptionRule(row: RuleRow): OptionRule {
 function pickPaints(
   options: ModelOptionRow[],
   baseById: Map<number, PaintRow>,
+  imageByPaintId: Map<number, string>,
 ): Paint[] {
   return options.flatMap((option) => {
     if (option.kind !== "paint") return [];
     const base = baseById.get(option.optionId);
     return base
-      ? [{ id: base.id, name: base.name, hex: base.hex, price: option.price }]
+      ? [{
+          id: base.id,
+          name: base.name,
+          hex: base.hex,
+          price: option.price,
+          image: imageByPaintId.get(base.id) ?? null,
+        }]
       : [];
   });
 }
@@ -221,11 +229,24 @@ export function findOptionCatalog(
   const packagesById = new Map(
     db.select().from(packages).all().map((row) => [row.id, row]),
   );
+  const paintImageRows = db
+    .select()
+    .from(modelPaintImages)
+    .where(
+      and(
+        eq(modelPaintImages.modelId, modelRow.id),
+        eq(modelPaintImages.reviewed, 1),
+      ),
+    )
+    .all();
+  const imageByPaintId = new Map(
+    paintImageRows.map((row) => [row.paintId, row.imagePath]),
+  );
 
   return {
     model: toModelSummary(modelRow),
     trims: trimRows.map(toTrim),
-    paints: pickPaints(optionRows, paintsById),
+    paints: pickPaints(optionRows, paintsById, imageByPaintId),
     wheels: pickWheels(optionRows, wheelsById),
     interiors: pickInteriors(optionRows, interiorsById),
     packages: pickPackages(optionRows, packagesById),

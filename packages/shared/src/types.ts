@@ -33,6 +33,8 @@ export interface Paint {
   name: string;
   hex: string;
   price: Money;
+  /** 该车型该颜色的 AI 换色海报；没有时前端回退 heroImage。 */
+  image?: string | null;
 }
 
 export interface Wheel {
