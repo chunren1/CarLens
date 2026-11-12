@@ -69,5 +69,5 @@
 
 ## 资产
 
-R1：/models/r1.glb；S7：/models/s7.glb；hero 图：/images/r1-hero.webp、/images/s7-hero.webp。
+S7：/models/s7.glb（全系共用）；r1.glb 已删除；hero 图：/images/seal-hero.webp、/images/han-hero.webp。
 模型文件不入库（.gitignore），由 scripts/setup-assets.sh 从本地源复制。

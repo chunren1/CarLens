@@ -23,6 +23,7 @@ const storeId = ref<number | null>(null);
 const errors = ref<{ name?: string; phone?: string; store?: string }>({});
 const submitting = ref(false);
 const submitError = ref("");
+const idempotencyKey = crypto.randomUUID();
 
 async function loadStores(): Promise<void> {
   storeState.value = "loading";
@@ -85,7 +86,7 @@ async function submit(): Promise<void> {
       customerName: name.value.trim(),
       phone: phone.value.trim(),
       storeId: targetStoreId,
-    });
+    }, idempotencyKey);
     await router.push({ name: "pay", params: { orderNo: order.orderNo } });
   } catch (err) {
     submitError.value = errorMessage(err);

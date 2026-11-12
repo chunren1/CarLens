@@ -840,6 +840,22 @@ onMounted(async () => {
   .admin-cards {
     grid-template-columns: 1fr;
   }
+
+  .admin-head {
+    align-items: flex-start;
+  }
+
+  .admin-table-wrap {
+    margin-inline: calc(var(--space-4) * -1);
+    border-inline: 0;
+    border-radius: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 10px;
+  }
 }
 
 .admin-models {

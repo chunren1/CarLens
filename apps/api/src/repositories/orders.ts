@@ -41,6 +41,7 @@ export function generateOrderNo(now: Date = new Date()): string {
 
 export interface NewOrderInput {
   userId?: number | null;
+  idempotencyKey?: string | null;
   modelSlug: string;
   storeId: number;
   customerName: string;
@@ -66,6 +67,7 @@ export function insertOrder(db: AppDb, input: NewOrderInput): OrderRow {
         .insert(orders)
         .values({
           orderNo: generateOrderNo(now),
+          idempotencyKey: input.idempotencyKey ?? null,
           userId: input.userId ?? null,
           modelSlug: input.modelSlug,
           storeId: input.storeId,
@@ -85,6 +87,17 @@ export function insertOrder(db: AppDb, input: NewOrderInput): OrderRow {
     }
   }
   throw new Error("订单号生成冲突，已重试 5 次");
+}
+
+export function findOrderByIdempotencyKey(
+  db: AppDb,
+  key: string,
+): OrderRow | undefined {
+  return db
+    .select()
+    .from(orders)
+    .where(eq(orders.idempotencyKey, key))
+    .get();
 }
 
 export function listOrdersByUser(db: AppDb, userId: number): OrderRow[] {

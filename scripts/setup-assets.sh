@@ -6,15 +6,6 @@ MODELS="$ROOT/apps/web/public/models"
 BASIS="$ROOT/apps/web/public/basis"
 mkdir -p "$MODELS" "$BASIS"
 
-if [ ! -f "$MODELS/r1.glb" ]; then
-  echo "==> 下载并量化 R1（Khronos Car Concept，CC BY 4.0）"
-  curl -fL --retry 3 -o /tmp/wangshu-r1-original.glb \
-    "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/CarConcept/glTF-Binary/CarConcept.glb"
-  pnpm dlx @gltf-transform/cli quantize /tmp/wangshu-r1-original.glb "$MODELS/r1.glb"
-else
-  echo "==> R1 已存在，跳过"
-fi
-
 if [ ! -f "$MODELS/s7.glb" ]; then
   SRC="${1:-/mnt/d/edge/generic_sedan_car.glb}"
   if [ ! -f "$SRC" ]; then
@@ -37,7 +28,7 @@ if [ -d "$THREE_BASIS" ]; then
   cp "$THREE_BASIS/basis_transcoder.wasm" "$BASIS/"
   echo "==> KTX2 transcoder 已复制"
 else
-  echo "警告：找不到 three 的 basis transcoder，R1 的 KTX2 贴图可能无法加载" >&2
+  echo "警告：找不到 three 的 basis transcoder，s7 的 KTX2 贴图可能无法加载" >&2
 fi
 
 echo "==> 资源就绪：$MODELS"

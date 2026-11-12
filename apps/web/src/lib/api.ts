@@ -125,10 +125,11 @@ export const api = {
       method: "POST",
       body: JSON.stringify(input),
     }),
-  createOrder: (input: CreateOrderInput): Promise<Order> =>
+  createOrder: (input: CreateOrderInput, idempotencyKey?: string): Promise<Order> =>
     request<Order>("/orders", {
       method: "POST",
       body: JSON.stringify(input),
+      headers: idempotencyKey ? { "Idempotency-Key": idempotencyKey } : undefined,
     }),
   getOrder: (orderNo: string): Promise<Order> =>
     request<Order>("/orders/" + encodeURIComponent(orderNo)),

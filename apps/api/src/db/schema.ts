@@ -184,6 +184,7 @@ export const appointments = sqliteTable("appointments", {
 export const orders = sqliteTable("orders", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   orderNo: text("order_no").notNull().unique(),
+  idempotencyKey: text("idempotency_key"),
   userId: integer("user_id").references(() => users.id),
   configId: integer("config_id").references(() => configs.id),
   modelSlug: text("model_slug").notNull(),

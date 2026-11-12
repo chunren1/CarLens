@@ -6,6 +6,7 @@ import { findOptionCatalog } from "../repositories/catalog";
 import {
   cancelOrder,
   findOrderRow,
+  findOrderByIdempotencyKey,
   insertOrder,
   listOrdersByUser,
   toOrderDto,
@@ -40,16 +41,55 @@ export async function orderRoutes(app: FastifyInstance): Promise<void> {
     );
 
     const user = getUserByToken(app.db, request.cookies[SESSION_COOKIE]);
-    const row = insertOrder(app.db, {
-      userId: user?.id ?? null,
-      modelSlug: input.modelSlug,
-      storeId: input.storeId,
-      customerName: input.customerName,
-      phone: input.phone,
-      config: quote,
-      depositAmount: quote.deposit,
-      totalAmount: quote.total,
-    });
+    const rawKey = request.headers["idempotency-key"];
+    const idempotencyKey = Array.isArray(rawKey) ? rawKey[0] : rawKey;
+    if (
+      idempotencyKey !== undefined &&
+      !/^[A-Za-z0-9._-]{8,80}$/.test(idempotencyKey)
+    ) {
+      throw new ApiError("INVALID_IDEMPOTENCY_KEY", "幂等键格式不正确", 400);
+    }
+
+    if (idempotencyKey) {
+      const existing = findOrderByIdempotencyKey(app.db, idempotencyKey);
+      if (existing) {
+        if (
+          (existing.userId !== null && existing.userId !== user?.id) ||
+          (existing.userId === null && existing.phone !== input.phone)
+        ) {
+          throw new ApiError("IDEMPOTENCY_CONFLICT", "幂等键已被其他订单使用", 409);
+        }
+        reply.status(200);
+        return toOrderDto(app.db, existing);
+      }
+    }
+
+    let row;
+    try {
+      row = insertOrder(app.db, {
+        userId: user?.id ?? null,
+        idempotencyKey: idempotencyKey ?? null,
+        modelSlug: input.modelSlug,
+        storeId: input.storeId,
+        customerName: input.customerName,
+        phone: input.phone,
+        config: quote,
+        depositAmount: quote.deposit,
+        totalAmount: quote.total,
+      });
+    } catch (error) {
+      if (!idempotencyKey) throw error;
+      const existing = findOrderByIdempotencyKey(app.db, idempotencyKey);
+      if (!existing) throw error;
+      if (
+        (existing.userId !== null && existing.userId !== user?.id) ||
+        (existing.userId === null && existing.phone !== input.phone)
+      ) {
+        throw new ApiError("IDEMPOTENCY_CONFLICT", "幂等键已被其他订单使用", 409);
+      }
+      reply.status(200);
+      return toOrderDto(app.db, existing);
+    }
     reply.status(201);
     return toOrderDto(app.db, row);
   });

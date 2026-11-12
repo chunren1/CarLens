@@ -28,10 +28,13 @@ afterEach(async () => {
   await ctx.close();
 });
 
-async function createOrder() {
+async function createOrder(idempotencyKey?: string) {
   const response = await ctx.app.inject({
     method: "POST",
     url: "/api/orders",
+    headers: idempotencyKey
+      ? { "idempotency-key": idempotencyKey }
+      : undefined,
     payload: buildOrderPayload(catalog, storeId),
   });
   return response;
@@ -63,6 +66,31 @@ describe("订单与模拟支付", () => {
     const second = await createOrder();
     expect(second.statusCode).toBe(201);
     expect(second.json<Order>().orderNo).not.toBe(order.orderNo);
+  });
+
+  it("replays the same idempotency key without creating a second order", async () => {
+    const key = "demo-idem-key-20261113";
+    const first = await createOrder(key);
+    expect(first.statusCode).toBe(201);
+    const second = await createOrder(key);
+    expect(second.statusCode).toBe(200);
+    expect(second.json<Order>().orderNo).toBe(first.json<Order>().orderNo);
+    const rows = ctx.db.select().from(ordersTable).all();
+    expect(rows).toHaveLength(1);
+  });
+
+  it("rejects an idempotency key reused by another phone", async () => {
+    const key = "demo-idem-key-conflict";
+    const first = await createOrder(key);
+    expect(first.statusCode).toBe(201);
+    const second = await ctx.app.inject({
+      method: "POST",
+      url: "/api/orders",
+      headers: { "idempotency-key": key },
+      payload: { ...buildOrderPayload(catalog, storeId), phone: "13900139000" },
+    });
+    expect(second.statusCode).toBe(409);
+    expect(second.json()).toMatchObject({ code: "IDEMPOTENCY_CONFLICT" });
   });
 
   it("reads the order by orderNo", async () => {

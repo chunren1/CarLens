@@ -42,7 +42,7 @@
 1. 前端只引用 **WebP**，1600×1000，质量 82–88；原图 PNG 只放 assets，不进 Web 根。
 2. 文件名只用小写英文/数字/短横线，不要中文和空格：black.webp、white.webp、tesla-model3.webp。
 3. 不要提交几十 MB 的原始 PNG 到 Git；Git 只保留最终 WebP 或路径清单。
-4. 部署脚本目前不带 --delete，上传到 /var/www 的图片不会被普通部署删除；但重装/迁移要单独备份。
+4. 部署脚本不做 rsync --delete；部署后用 dist/assets 清单清理旧 hash chunk（2026-11-13 已清一次 1022 个），重装/迁移仍要单独备份图片。
 5. 每日 SQLite 备份不包含图片；图片目录建议每周做一次 tar 备份到 /opt/wangshu/backups/assets-YYYYMMDD.tar.gz。
 6. 不要把 .secrets、数据库、API key 放到 /var/www。
 7. 大图上传后先本地验收，再传服务器；服务器不做图像处理。

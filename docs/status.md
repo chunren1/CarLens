@@ -27,7 +27,7 @@
 - 「了解我们」：比亚迪品牌/技术/数字/原则 + 非官方声明
 - 账户：注册/登录/会话/我的订单；订单可取消待支付
 - 后台：概览/订单/线索/车型版本价/门店/新闻 CRUD
-- API：18 表，**11 个测试文件 / 41 tests 全绿**
+- API：18 表，**11 个测试文件 / 44 tests 全绿**
 - Web：`vue-tsc` + `vite build` 通过；海报页 1440/390 已检查
 - 部署：https://ziphare.me/（Cloudflare + LE，HTTP 301→HTTPS，HSTS）；每日 04:20 SQLite 备份；systemd Restart=always
 - 2026-11-12：nginx `/models` P0 修复保留；白底/图片/轮播改版上线
@@ -39,7 +39,7 @@
 3. 线上已 HTTPS；`COOKIE_SECURE=true`，IP HTTP 登录失败是预期行为。CSP 仍缺。
 4. 3D 只做技术/选配示意，车型封面以官方海报为准；订单退款、优惠券、真实支付不在 Demo 范围。
 5. 公司内容为演示，非比亚迪官方；若用于公开传播需注意商标/素材授权。
-6. 安全整改（2026-11-12 21:10）：已轮换线上管理员口令（`.secrets/admin-password`，不公开）、seed 生产 guard、支付归属校验、登录/注册/下单/试驾限流、后台实收定金口径；41 tests。仍未做：Git 入仓、CSP、订单幂等、试驾日期校验。详见 `docs/REVIEW-20261112-v06.md` 与 `docs/REVIEW-20261112-v06-ADDENDUM.md`。
+6. 安全整改（2026-11-12 21:10）：已轮换线上管理员口令（`.secrets/admin-password`，不公开）、seed 生产 guard、支付归属校验、登录/注册/下单/试驾限流、后台实收定金口径；44 tests。已补：Git 入仓、CSP、订单幂等键、试驾日期/时段校验、后台移动端、r1.glb 清理。详见 `docs/REVIEW-20261112-v06.md` 与 `docs/REVIEW-20261112-v06-ADDENDUM.md`。
 
 ## 待办
 
