@@ -45,15 +45,15 @@ describe("seed", () => {
   it("writes the Demo v0.1 catalog", async () => {
     await seed(temp.db);
     expect(counts(temp.db)).toEqual({
-      models: 2,
-      trims: 6,
+      models: 12,
+      trims: 29,
       paints: 5,
       wheels: 3,
       interiors: 2,
       packages: 3,
       stores: 4,
-      modelOptions: 26,
-      rules: 2,
+      modelOptions: 156,
+      rules: 12,
       settings: 8,
     });
   });
@@ -69,6 +69,19 @@ describe("seed", () => {
       .from(models)
       .all()
       .map((row) => row.slug);
-    expect(slugs).toEqual(["r1", "s7"]);
+    expect(slugs).toEqual([
+      "r1",
+      "s7",
+      "tesla-model3",
+      "tesla-modely",
+      "xpeng-p7",
+      "zeekr-001",
+      "xiaomi-su7",
+      "nio-et5",
+      "li-l6",
+      "aito-m7",
+      "leapmotor-c10",
+      "aion-i60",
+    ]);
   });
 });

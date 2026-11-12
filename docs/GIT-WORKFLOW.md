@@ -14,8 +14,8 @@
 | 可见性 | **PUBLIC**（2026-11-12 用户要求转公开） | `gh repo view chunren1/CarLens --json visibility` |
 | 创建时间 | 2026-11-12（公开版重建） | 同上 |
 | 默认分支 | `main` | 同上 |
-| 提交数 | 2（公开版 + logo 提交，最新见 `git log -1`） | `git rev-list --count HEAD` |
-| 已跟踪文件 | 186 | `git ls-files \| wc -l` |
+| 提交数 | 3（公开版 + logo + 多品牌车型提交，最新见 `git log -1`） | `git rev-list --count HEAD` |
+| 已跟踪文件 | 188 | `git ls-files \| wc -l` |
 | 本地 vs 远端 | **完全同步**，`git push --dry-run` → `Everything up-to-date` | 实测 |
 | tag / CI | 无 tag、无 `.github/` | `git tag`、`ls -a` |
 | 提交身份 | `chunren1 <168334890+chunren1@users.noreply.github.com>` | `git log -1 --format='%an <%ae>'` |
@@ -54,7 +54,7 @@ git push origin main
 
 ## 3. 提交信息规范
 
-公开版目前 2 条提交，风格是「**前缀 + 中文描述**」，照这个来：
+公开版目前 3 条提交，风格是「**前缀 + 中文描述**」，照这个来：
 
 ```
 feat: 车鉴 CarLens 多品牌配置平台（3D/2D、跨品牌海报、安全整改）

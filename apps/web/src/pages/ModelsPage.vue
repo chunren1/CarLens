@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, shallowRef } from "vue";
+import { computed, onMounted, ref, shallowRef } from "vue";
 import { RouterLink } from "vue-router";
 import type { ModelSummary } from "@wangshu/shared";
 import ModelCard from "../components/ModelCard.vue";
@@ -9,6 +9,14 @@ import { api, errorMessage } from "../lib/api";
 const models = shallowRef<ModelSummary[]>([]);
 const state = ref<"loading" | "ready" | "error" | "empty">("loading");
 const error = ref("");
+const activeBrand = ref("全部");
+
+const brands = computed(() => ["全部", ...new Set(models.value.map((model) => model.brand))]);
+const visibleModels = computed(() =>
+  activeBrand.value === "全部"
+    ? models.value
+    : models.value.filter((model) => model.brand === activeBrand.value),
+);
 
 async function load(): Promise<void> {
   state.value = "loading";
@@ -32,13 +40,13 @@ onMounted(() => {
   <div class="page container">
     <header class="page-head">
       <p class="eyebrow">车型矩阵</p>
-      <h1 class="page-title">两台车，两种生活</h1>
+      <h1 class="page-title">多品牌，放在一起看</h1>
       <p class="page-sub">
-        海豹是四门轿跑，把驾驶乐趣留在日常；汉 EV 是旗舰轿车，把东方审美和舒适放进通勤。均为纯电平台，配置与价格在配置器中实时计算。
+        从比亚迪、特斯拉到小鹏、极氪、小米、蔚来、理想、问界、零跑、埃安，同一套口径比较车型、版本、配置与价格。
       </p>
       <div class="models__actions">
         <RouterLink to="/wizard" class="btn btn--ghost btn--sm">不知道怎么选？试试选车向导</RouterLink>
-        <RouterLink to="/compare" class="btn btn--ghost btn--sm">海豹 / 汉 EV 对比</RouterLink>
+        <RouterLink to="/compare" class="btn btn--ghost btn--sm">跨品牌车型对比</RouterLink>
       </div>
     </header>
 
@@ -50,9 +58,27 @@ onMounted(() => {
       empty-text="车型正在更新，请稍后再来。"
       @retry="load"
     >
-      <p class="models__count"><span class="num">{{ models.length }}</span> 台在售</p>
+      <div class="models__brands" role="tablist" aria-label="品牌筛选">
+        <button
+          v-for="brand in brands"
+          :key="brand"
+          type="button"
+          class="models__brand"
+          :class="{ 'models__brand--active': activeBrand === brand }"
+          :aria-selected="activeBrand === brand"
+          role="tab"
+          @click="activeBrand = brand"
+        >
+          {{ brand }}
+        </button>
+      </div>
+
+      <p class="models__count">
+        <span class="num">{{ visibleModels.length }}</span> 台在售
+        <span v-if="activeBrand !== '全部'"> · {{ activeBrand }}</span>
+      </p>
       <div class="models__grid">
-        <ModelCard v-for="model in models" :key="model.id" :model="model" />
+        <ModelCard v-for="model in visibleModels" :key="model.id" :model="model" />
       </div>
     </StateBlock>
   </div>
@@ -66,6 +92,28 @@ onMounted(() => {
   margin-top: var(--space-2);
 }
 
+.models__brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-4);
+}
+
+.models__brand {
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.models__brand:hover,
+.models__brand--active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
 .models__count {
   margin-bottom: var(--space-4);
   font-family: var(--font-mono);
@@ -76,12 +124,13 @@ onMounted(() => {
 
 .models__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-5);
 }
 
 @media (max-width: 1024px) {
   .models__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-4);
   }
 }

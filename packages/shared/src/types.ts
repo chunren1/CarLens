@@ -5,12 +5,16 @@ export interface ModelSummary {
   slug: string;
   name: string;
   enName: string;
+  brand: string;
   body: string;
   segment: string;
   priceFrom: Money;
   seats: number;
   tagline: string;
   heroImage: string;
+  rangeKm: number;
+  zero100: number;
+  wheelInch: number;
 }
 
 export interface Trim {
@@ -212,6 +216,7 @@ export interface AdminModel {
   slug: string;
   name: string;
   enName: string;
+  brand: string;
   body: string;
   segment: string;
   priceFrom: number;

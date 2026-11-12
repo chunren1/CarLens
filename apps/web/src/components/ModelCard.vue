@@ -17,6 +17,7 @@ defineProps<{ model: ModelSummary }>();
     <div class="model-card__body">
       <div class="model-card__head">
         <div>
+          <p class="model-card__brand">{{ model.brand }}</p>
           <p class="model-card__en">{{ model.enName }}</p>
           <h3 class="model-card__name">{{ model.name }}</h3>
         </div>
@@ -112,6 +113,13 @@ defineProps<{ model: ModelSummary }>();
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
+}
+
+.model-card__brand {
+  margin-bottom: 3px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--accent-2);
 }
 
 .model-card__en {

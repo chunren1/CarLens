@@ -41,17 +41,19 @@ const fallback: Slide[] = [
 function slideFor(model: ModelSummary): Slide {
   const isR1 = model.slug === "r1";
   const isS7 = model.slug === "s7";
+  const title = isR1 ? "把热爱，开回家。" : isS7 ? "把从容，开回家。" : model.tagline;
+  const lead = isR1
+    ? "海豹，四门轿跑，650 km 续航，3.8 秒破百。把驾驶乐趣留在日常里。"
+    : isS7
+      ? "汉 EV，四门五座，701 km 续航。把东方审美和日常通勤，放在同一台车里。"
+      : model.name + "，" + model.body + "，" + model.rangeKm + " km 续航" + (model.zero100 > 0 ? "，" + model.zero100 + " 秒破百" : "") + "。" + model.tagline + "。";
   return {
     slug: model.slug,
     name: model.name,
-    eyebrow: model.body,
-    title: isR1 ? "把热爱，开回家。" : isS7 ? "把从容，开回家。" : "重新认识 " + model.name,
-    lead: isR1
-      ? "海豹，四门轿跑，650 km 续航，3.8 秒破百。把驾驶乐趣留在日常里。"
-      : isS7
-        ? "汉 EV，四门五座，701 km 续航。把东方审美和日常通勤，放在同一台车里。"
-        : model.tagline,
-    image: model.heroImage || (isR1 ? "/images/seal-hero.webp" : "/images/han-hero.webp"),
+    eyebrow: model.brand + " · " + model.body + " · " + model.rangeKm + " km",
+    title,
+    lead,
+    image: model.heroImage || "/images/seal-hero.webp",
     to: "/models/" + model.slug,
   };
 }
@@ -140,7 +142,12 @@ watch(slides, () => {
         :class="{ 'hero-carousel__slide--active': index === active }"
         :aria-hidden="index !== active"
       >
-        <img :src="assetUrl(slide.image)" :alt="slide.name + ' 车型海报'" :fetchpriority="index === 0 ? 'high' : 'low'" />
+        <img
+          :src="assetUrl(slide.image)"
+          :alt="slide.name + ' 车型海报'"
+          :fetchpriority="index === 0 ? 'high' : 'low'"
+          :loading="index === 0 ? 'eager' : 'lazy'"
+        />
       </div>
       <div class="hero-carousel__scrim" aria-hidden="true"></div>
 

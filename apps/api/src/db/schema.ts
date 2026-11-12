@@ -39,12 +39,16 @@ export const models = sqliteTable("models", {
   slug: text("slug").notNull().unique(),
   name: text("name").notNull(),
   enName: text("en_name").notNull(),
+  brand: text("brand").notNull(),
   body: text("body").notNull(),
   segment: text("segment").notNull(),
   priceFrom: integer("price_from").notNull(),
   seats: integer("seats").notNull(),
   tagline: text("tagline").notNull(),
   heroImage: text("hero_image").notNull(),
+  rangeKm: integer("range_km").notNull(),
+  zero100: real("zero_100").notNull(),
+  wheelInch: integer("wheel_inch").notNull(),
   createdAt: text("created_at").notNull(),
 });
 

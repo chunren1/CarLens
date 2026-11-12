@@ -25,10 +25,10 @@ const questions = [
 ];
 
 const budgets: { value: Budget; label: string; note: string }[] = [
-  { value: "entry", label: "30 万以内", note: "先解决有没有" },
-  { value: "mid", label: "30–60 万", note: "主流预算" },
-  { value: "high", label: "60–100 万", note: "想要更好的" },
-  { value: "flagship", label: "100 万以上", note: "不设上限" },
+  { value: "entry", label: "15 万以内", note: "先解决有没有" },
+  { value: "mid", label: "15–25 万", note: "主流预算" },
+  { value: "high", label: "25–35 万", note: "想要更好的" },
+  { value: "flagship", label: "35 万以上", note: "不设上限" },
 ];
 
 const usages: { value: Usage; label: string; note: string }[] = [
@@ -42,26 +42,35 @@ const seatOptions = [
   { value: 2, label: "2 座", note: "两个人就够" },
   { value: 4, label: "4 座", note: "偶尔带人" },
   { value: 5, label: "5 座", note: "家庭刚需" },
+  { value: 6, label: "6 座", note: "多人出行" },
 ];
 
 const recommended = computed(() => {
-  const r1 = details.value.find((model) => model.slug === "r1");
-  const s7 = details.value.find((model) => model.slug === "s7");
-  if (!r1 || !s7) return null;
-
+  const ceilings: Record<Budget, number> = {
+    entry: 15_000_000,
+    mid: 25_000_000,
+    high: 35_000_000,
+    flagship: Number.POSITIVE_INFINITY,
+  };
+  const eligible = details.value.filter(
+    (model) => model.priceFrom <= ceilings[budget.value] && model.seats >= seats.value,
+  );
+  const pool = (eligible.length > 0 ? eligible : details.value).slice();
   if (usage.value === "performance") {
-    return { model: r1, reason: "你把驾驶乐趣放在第一位，海豹的四门轿跑姿态、后驱/四驱和 3.8 秒更对味。" };
+    pool.sort((a, b) => a.zero100 - b.zero100);
+  } else if (usage.value === "long") {
+    pool.sort((a, b) => b.rangeKm - a.rangeKm);
+  } else if (usage.value === "family") {
+    pool.sort((a, b) => b.seats - a.seats || a.priceFrom - b.priceFrom);
+  } else {
+    pool.sort((a, b) => a.priceFrom - b.priceFrom);
   }
-  if (usage.value === "family") {
-    return { model: s7, reason: "家庭出行优先看后排与舒适性，汉 EV 的旗舰轿车车身更合适。" };
-  }
-  if (usage.value === "long") {
-    return { model: s7, reason: "长途多，汉 EV 701 km 的续航更从容。" };
-  }
-  if (budget.value === "entry") {
-    return { model: r1, reason: "预算优先，海豹起售价更低，日常配置并不将就。" };
-  }
-  return { model: s7, reason: "通勤为主、预算主流，汉 EV 的尺寸、舒适和续航更均衡。" };
+  const model = pool[0];
+  if (!model) return null;
+  const reason =
+    model.name + "：" + model.tagline + "。" + model.seats + " 座，" + model.rangeKm +
+    " km 续航，起售价 " + money(model.priceFrom) + "。";
+  return { model, reason };
 });
 
 function pickTrim(model: ModelDetail): number {
@@ -93,8 +102,8 @@ async function load(): Promise<void> {
   state.value = "loading";
   error.value = "";
   try {
-    const [r1, s7] = await Promise.all([api.getModel("r1"), api.getModel("s7")]);
-    details.value = [r1, s7];
+    const list = await api.listModels();
+    details.value = await Promise.all(list.map((model) => api.getModel(model.slug)));
     state.value = "ready";
   } catch (err) {
     error.value = errorMessage(err);
@@ -113,7 +122,7 @@ onMounted(() => {
       <p class="eyebrow">选车向导</p>
       <h1 class="page-title">三个问题，帮你缩小范围</h1>
       <p class="page-sub">
-        没有“最好的车”，只有更适合你的车。回答三个问题，我们给出一个推荐和理由，不替你做决定。
+        从 12 台跨品牌车型里，按预算、用途和座位数缩小范围；推荐只给一个理由，不替你做决定。
       </p>
     </header>
 

@@ -46,7 +46,7 @@ describe("POST /api/quote", () => {
   });
 
   it("adds package price once and dedupes repeated package ids", async () => {
-    const packageItem = catalog.packages.find((item) => item.name === "DiPilot 智驾包");
+    const packageItem = catalog.packages.find((item) => item.name === "智驾增强包");
     expect(packageItem).toBeDefined();
     const payload = buildQuoteInput(catalog, {
       packageIds: [packageItem!.id, packageItem!.id],

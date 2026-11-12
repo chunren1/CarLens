@@ -40,12 +40,16 @@ function toModelSummary(row: ModelRow): ModelSummary {
     slug: row.slug,
     name: row.name,
     enName: row.enName,
+    brand: row.brand,
     body: row.body,
     segment: row.segment,
     priceFrom: row.priceFrom,
     seats: row.seats,
     tagline: row.tagline,
     heroImage: row.heroImage,
+    rangeKm: row.rangeKm,
+    zero100: row.zero100,
+    wheelInch: row.wheelInch,
   };
 }
 

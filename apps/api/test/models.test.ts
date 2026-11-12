@@ -13,13 +13,26 @@ afterEach(async () => {
 });
 
 describe("车型目录 API", () => {
-  it("lists the two BYD demo models", async () => {
+  it("lists the multi-brand demo models", async () => {
     const response = await ctx.app.inject({ method: "GET", url: "/api/models" });
     expect(response.statusCode).toBe(200);
 
     const models = response.json<ModelSummary[]>();
-    expect(models).toHaveLength(2);
-    expect(models.map((model) => model.slug)).toEqual(["r1", "s7"]);
+    expect(models).toHaveLength(12);
+    expect(models.map((model) => model.slug)).toEqual([
+      "r1",
+      "s7",
+      "tesla-model3",
+      "tesla-modely",
+      "xpeng-p7",
+      "zeekr-001",
+      "xiaomi-su7",
+      "nio-et5",
+      "li-l6",
+      "aito-m7",
+      "leapmotor-c10",
+      "aion-i60",
+    ]);
     expect(models[0]).toMatchObject({
       name: "比亚迪 海豹",
       body: "四门轿跑",
@@ -75,9 +88,9 @@ describe("车型目录 API", () => {
       [21, 1_200_000, -35],
     ]);
     expect(catalog.packages.map((item) => [item.name, item.price])).toEqual([
-      ["DiPilot 智驾包", 1_200_000],
-      ["舒享包", 800_000],
-      ["云辇-C 底盘包", 6_800_000],
+      ["智驾增强包", 1_200_000],
+      ["舒享套装", 800_000],
+      ["底盘升级包", 6_800_000],
     ]);
 
     const wheel21 = catalog.wheels.find((wheel) => wheel.sizeInch === 21);

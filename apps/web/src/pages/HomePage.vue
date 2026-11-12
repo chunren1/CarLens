@@ -30,33 +30,31 @@ onMounted(() => {
 });
 
 const activeSlug = ref("r1");
+const activeModel = computed(
+  () => models.value.find((model) => model.slug === activeSlug.value) ?? models.value[0] ?? null,
+);
 
-const statsByModel = {
-  r1: [
-    { value: "650", unit: "km", label: "海豹 CLTC 续航" },
-    { value: "3.8", unit: "s", label: "海豹 0–100 km/h" },
-    { value: "19", unit: "英寸", label: "低风阻轮毂" },
-  ],
-  s7: [
-    { value: "701", unit: "km", label: "汉 EV CLTC 续航" },
-    { value: "7.9", unit: "s", label: "汉 EV 0–100 km/h" },
-    { value: "19", unit: "英寸", label: "低风阻轮毂" },
-  ],
-} as const;
-
-const numbers = computed(() => statsByModel[activeSlug.value as keyof typeof statsByModel] ?? statsByModel.r1);
+const numbers = computed(() => {
+  const model = activeModel.value;
+  if (!model) return [];
+  return [
+    { value: String(model.rangeKm), unit: "km", label: model.brand + " 续航" },
+    { value: model.zero100 > 0 ? model.zero100.toFixed(1) : "—", unit: "s", label: "0–100 km/h" },
+    { value: String(model.wheelInch), unit: "英寸", label: "标配轮毂" },
+  ];
+});
 
 const steps = [
-  { index: "01", title: "选车", text: "海豹四门轿跑、汉 EV 旗舰轿车，均为纯电平台。" },
+  { index: "01", title: "选车", text: "多品牌、多动力形式，同一套口径横向比较。" },
   { index: "02", title: "配置", text: "版本、车漆、轮毂、选装，高清车型图与价格实时联动。" },
   { index: "03", title: "下订", text: "透明报价单、模拟支付定金、订单状态可查。" },
 ];
 
 const techs = [
-  { value: "800V", title: "高压平台", text: "e 平台 3.0 Evo，800V 高压架构，为超充留足余量。" },
-  { value: "5C", title: "超充倍率", text: "10 分钟补能 400 km。在服务区喝一杯咖啡的时间。" },
-  { value: "3.8s", title: "零百加速", text: "海豹四驱性能版，双电机四驱，3.8 秒破百。" },
-  { value: "701km", title: "CLTC 续航", text: "汉 EV 旗舰型 701 km；日常通勤一周一充。" },
+  { value: "10", title: "品牌", text: "比亚迪、特斯拉、小鹏、极氪、小米、蔚来、理想、问界、零跑、埃安。" },
+  { value: "12", title: "车型", text: "轿车、轿跑、猎装、SUV 与增程，放在同一入口比较。" },
+  { value: "3", title: "动力形式", text: "纯电、增程与高性能四驱，按同一套口径计算落地价。" },
+  { value: "24h", title: "试驾确认", text: "合作门店预约后 24 小时内确认时间，不用反复追问。" },
 ];
 
 const services = [
@@ -97,8 +95,8 @@ const news = [
     <section class="section container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">车型</p>
-          <h2 class="section-title">两台车，两种性格</h2>
+          <p class="eyebrow">车型矩阵</p>
+          <h2 class="section-title">{{ models.length }} 台车，放在一起看</h2>
         </div>
         <RouterLink to="/models" class="more-link">全部车型 <span aria-hidden="true">→</span></RouterLink>
       </div>
@@ -364,8 +362,21 @@ const news = [
 
 .model-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-5);
+}
+
+@media (max-width: 1024px) {
+  .model-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 720px) {
+  .model-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .steps-band {

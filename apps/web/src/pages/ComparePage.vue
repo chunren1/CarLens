@@ -30,8 +30,12 @@ async function load(): Promise<void> {
   state.value = "loading";
   error.value = "";
   try {
-    const [r1, s7] = await Promise.all([api.getModel("r1"), api.getModel("s7")]);
-    details.value = [r1, s7];
+    const list = await api.listModels();
+    const featured = ["tesla-model3", "xiaomi-su7", "zeekr-001"];
+    const selected = featured
+      .map((slug) => list.find((model) => model.slug === slug))
+      .filter((model): model is NonNullable<typeof model> => Boolean(model));
+    details.value = await Promise.all(selected.map((model) => api.getModel(model.slug)));
     state.value = "ready";
   } catch (err) {
     error.value = errorMessage(err);
@@ -48,13 +52,14 @@ onMounted(() => {
   <div class="page container">
     <header class="page-head">
       <p class="eyebrow">车型对比</p>
-      <h1 class="page-title">把两台车放在一张表里</h1>
-      <p class="page-sub">同样是纯电平台，不同的车身与性格。先看差异，再去配置器里算价格。</p>
+      <h1 class="page-title">把三台车放在一张表里</h1>
+      <p class="page-sub">跨品牌挑三台代表车型：特斯拉 Model 3、小米 SU7、极氪 001。同一套口径先看差异，再去配置器算价格。</p>
     </header>
 
     <div v-if="state === 'loading'" class="compare-state">正在读取车型…</div>
     <div v-else-if="state === 'error'" class="compare-state">{{ error }}</div>
-    <table v-else class="compare">
+    <div v-else class="compare-wrap">
+      <table class="compare">
       <thead>
         <tr>
           <th scope="col">项目</th>
@@ -93,7 +98,7 @@ onMounted(() => {
         <tr>
           <th scope="row">适合谁</th>
           <td v-for="model in models" :key="model.slug">
-            {{ model.slug === "r1" ? "想要驾驶乐趣，接受轿跑姿态" : "家庭为主，需要后排与舒适" }}
+            {{ model.tagline }}
           </td>
         </tr>
         <tr>
@@ -105,7 +110,8 @@ onMounted(() => {
           </td>
         </tr>
       </tbody>
-    </table>
+      </table>
+    </div>
 
     <div class="compare-cta">
       <p class="eyebrow">还是选不出来？</p>
@@ -119,6 +125,11 @@ onMounted(() => {
 .compare-state {
   padding: var(--space-6);
   color: var(--muted);
+}
+
+.compare-wrap {
+  overflow-x: auto;
+  padding-bottom: var(--space-3);
 }
 
 .compare {

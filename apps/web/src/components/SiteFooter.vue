@@ -15,8 +15,10 @@ import { RouterLink } from "vue-router";
 
       <nav class="site-footer__col" aria-label="车型链接">
         <p class="site-footer__title">车型</p>
-        <RouterLink to="/models/r1" class="site-footer__link">比亚迪 海豹</RouterLink>
-        <RouterLink to="/models/s7" class="site-footer__link">比亚迪 汉 EV</RouterLink>
+        <RouterLink to="/models/tesla-model3" class="site-footer__link">特斯拉 Model 3</RouterLink>
+        <RouterLink to="/models/xiaomi-su7" class="site-footer__link">小米 SU7</RouterLink>
+        <RouterLink to="/models/zeekr-001" class="site-footer__link">极氪 001</RouterLink>
+        <RouterLink to="/models/xpeng-p7" class="site-footer__link">小鹏 P7+</RouterLink>
         <RouterLink to="/models" class="site-footer__link">全部车型</RouterLink>
         <RouterLink to="/wizard" class="site-footer__link">选车向导</RouterLink>
         <RouterLink to="/compare" class="site-footer__link">车型对比</RouterLink>
@@ -24,8 +26,8 @@ import { RouterLink } from "vue-router";
 
       <nav class="site-footer__col" aria-label="购车链接">
         <p class="site-footer__title">购车</p>
-        <RouterLink to="/configurator/r1" class="site-footer__link">配置 海豹</RouterLink>
-        <RouterLink to="/configurator/s7" class="site-footer__link">配置 汉 EV</RouterLink>
+        <RouterLink to="/configurator/tesla-model3" class="site-footer__link">配置 Model 3</RouterLink>
+        <RouterLink to="/configurator/xiaomi-su7" class="site-footer__link">配置 小米 SU7</RouterLink>
         <RouterLink to="/quote" class="site-footer__link">我的报价单</RouterLink>
         <RouterLink to="/finance" class="site-footer__link">金融方案</RouterLink>
         <RouterLink to="/test-drive" class="site-footer__link">预约试驾</RouterLink>
@@ -41,7 +43,7 @@ import { RouterLink } from "vue-router";
         <RouterLink to="/login" class="site-footer__link">登录</RouterLink>
         <RouterLink to="/account" class="site-footer__link">我的账户</RouterLink>
         <RouterLink to="/credits" class="site-footer__link">素材致谢</RouterLink>
-        <p class="site-footer__muted">车型海报：比亚迪官网，仅毕设演示</p>
+        <p class="site-footer__muted">车型海报：各品牌官网，仅毕设演示</p>
         <p class="site-footer__muted">three.js：MIT</p>
       </div>
     </div>
