@@ -1,0 +1,46 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.env
+.env.*
+!.env.example
+data/*.db
+data/*.db-*
+*.log
+*.tsbuildinfo
+.DS_Store
+spike/
+apps/api/data/
+apps/web/public/models/*.glb
+apps/web/public/basis/
+# 本机演示凭据（不入库）
+.secrets/
+
+# 本地截图/参考图/原始素材，不入库
+docs/screens/
+docs/ref/
+assets/
+tmp-byd-posters/
+docs/ANALYSIS-20261112.html
+# 审查报告含旧口令与订单 PII，只留本地
+docs/REVIEW-20261112-v06.md
+docs/REVIEW-20261112.md
+
+# scripts/ 下的一次性脚本（截图/爬虫/摘要），不入库；交付脚本只有 deploy-ip.sh / setup-assets.sh /
+# e2e-demo.mjs / e2e-test-drive.mjs / smoke-api.sh / watchdog.sh（均已入库，ignore 不影响已跟踪文件）
+scripts/*-shot*.mjs
+scripts/shot-*.mjs
+scripts/live-*.mjs
+scripts/scrape-*.mjs
+scripts/check-*.mjs
+scripts/build-summary*.py
+scripts/3d-r1-mobile.mjs
+scripts/fetch-byd-posters.mjs
+scripts/order-cancel-test.mjs
+scripts/other-brand-imgs.mjs
+scripts/paint-black.mjs
+scripts/r1-blue-test.mjs
+scripts/ref-imgs.mjs
+scripts/wait-live.mjs

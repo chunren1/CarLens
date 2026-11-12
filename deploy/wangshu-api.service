@@ -1,0 +1,27 @@
+[Unit]
+Description=Wangshu WANGSHU API
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+Group=deploy
+WorkingDirectory=/opt/wangshu/app
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=3100
+Environment=DATABASE_URL=/opt/wangshu/data/wangshu.db
+# ziphare.me 已上 Cloudflare + Let's Encrypt（2026-11-12）。
+# 必须 true：否则 HTTPS 站点的会话 cookie 缺少 Secure，明文 HTTP 下也可能被发送。
+# 副作用：通过 http://203.0.113.10/ 登录会失败（浏览器不存 Secure cookie）。
+#         该 IP 仅作"站点存活"兜底，登录/后台一律走 https://ziphare.me/。
+Environment=COOKIE_SECURE=true
+Environment=PATH=/opt/node/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/node/bin/tsx src/server.ts
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
