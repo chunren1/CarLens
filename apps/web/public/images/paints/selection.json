@@ -1,13 +1,13 @@
 {
   "seal": {
-    "selected": "other-ai",
+    "selected": "deterministic-v3",
     "path": "/images/paints/seal",
-    "deterministic_fallback": "/images/paints/seal-det",
-    "reason": "视觉更接近真实车漆；非漆面 MAE 1.2–2.5，不作为 bitwise 证明"
+    "fallback": "paints/seal-det（旧 A 套）",
+    "reason": "新版修掉旧版青边；非漆面 MAE 0.93，P99 3.67"
   },
   "han-ev": {
-    "selected": "deterministic",
+    "selected": "deterministic-v3",
     "path": "/images/paints/han-ev",
-    "reason": "只有确定性版本；非漆面 MAE 约 0.5，保留树影反射"
+    "reason": "新版 mask 重做；非漆面 MAE 0.93–1.07"
   }
 }

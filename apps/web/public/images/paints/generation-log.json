@@ -1,21 +1,10 @@
 {
-  "generated_at": "2026-11-13T01:33:41.927500+08:00",
-  "pipeline": "deterministic Lab-domain paint recolor (no generative inpainting)",
-  "rationale": "mask 外像素 bitwise 不变；mask 内保留原图亮度分布 t，因此高光/环境反射/腰线/门缝/轮拱不丢失",
-  "prompt_zh_template": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「{name}」{hex}，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-  "prompt_en_template": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to {name} {hex} with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-  "negative_prompt": "不要改变车身造型、四门数量、轮毂、轮胎、车窗、车灯、格栅、车标、车牌、背景、山脉、道路、天空、文字、水印；不要新增或删除车辆/人物/车门/后视镜；不要改变视角、透视、构图、比例；不要出现第二辆车；不要塑料感、死黑、过曝、偏色、重复轮毂、错误车标、融化边缘。",
-  "export": {
-    "format": "WEBP",
-    "quality": 85,
-    "color_space": "sRGB",
-    "size": "1600x1000",
-    "alpha": false,
-    "resize_or_crop": false
-  },
+  "generated_at": "2026-11-13T02:18:29+08:00",
+  "pipeline": "deterministic Lab-domain paint recolor (no generative inpainting / no text-to-image)",
+  "rationale": "mask 外像素原样保留，因此同车型 5 张的轮毂/车窗/灯组/车牌/背景像素级一致；mask 内保留原图亮度分位层次，高光与环境反射不丢失",
   "base_images": {
     "han-ev": {
-      "path": "/home/user/projects/wangshu/apps/web/public/images/han-hero.webp",
+      "path": "apps/web/public/images/han-hero.webp",
       "sha256": "657201297bbda8a8ec9e476374e2b5c499b3d1fb5cf7525d4595a2c06591f82d",
       "size": [
         1600,
@@ -23,7 +12,7 @@
       ]
     },
     "seal": {
-      "path": "/home/user/projects/wangshu/apps/web/public/images/seal-hero.webp",
+      "path": "apps/web/public/images/seal-hero.webp",
       "sha256": "cde24d5462d8d6ec003dcf623a8b8195d138ab35354a4a9be1ab2e18a0722d26",
       "size": [
         1600,
@@ -33,183 +22,146 @@
   },
   "masks": {
     "han-ev": {
-      "path": "/home/user/projects/wangshu/apps/web/public/images/masks/han-ev.png",
-      "sha256": "77420a913a71f11ae6724e976dafb11aef1e1cab410ed5772f99c092e72ef030",
-      "coverage_pct": 7.36,
-      "chroma_mask": "/home/user/projects/wangshu/apps/web/public/images/masks/han-ev-chroma.png"
+      "path": "apps/web/public/images/masks/han.png",
+      "coverage_pct": 10.01,
+      "alpha_png_sha256": "0bbd3aad829f262e2c614bdb404ea68fa826bcc0012c7c3e16b6f73f976aba74"
     },
     "seal": {
-      "path": "/home/user/projects/wangshu/apps/web/public/images/masks/seal.png",
-      "sha256": "810bbe15b71e18f20ef4fe2b82d13801efe2e8a3d9a65da81d8ebd5de4600796",
-      "coverage_pct": 11.03,
-      "chroma_mask": "/home/user/projects/wangshu/apps/web/public/images/masks/seal-chroma.png"
+      "path": "apps/web/public/images/masks/seal.png",
+      "coverage_pct": 12.23,
+      "alpha_png_sha256": "e03719386411096c8f811389b351e612ea6a4ba7e8a6df0444d401d36626e720"
     }
   },
   "colors": {
     "black": {
       "name": "玄空黑",
       "hex": "#0B0D10",
-      "params": {
-        "floor": 3,
-        "ceil": 215,
-        "gamma": 2.2,
-        "chroma": 0.06,
-        "feather": 1.0
-      }
+      "l_knots_P2_P25_P50_P75_P98": [
+        1.5,
+        3.2,
+        8.5,
+        25.0,
+        76.0
+      ],
+      "chroma_scale": 1.0,
+      "env_reflection_keep": 0.012
     },
     "white": {
       "name": "雪域白",
       "hex": "#E8E6E1",
-      "params": {
-        "floor": 100,
-        "ceil": 242,
-        "gamma": 0.85,
-        "chroma": 0.06,
-        "feather": 1.0
-      }
+      "l_knots_P2_P25_P50_P75_P98": [
+        30.0,
+        52.0,
+        73.0,
+        89.0,
+        97.0
+      ],
+      "chroma_scale": 0.7,
+      "env_reflection_keep": 0.018
     },
     "gray": {
       "name": "时光灰",
       "hex": "#7A828C",
-      "params": {
-        "floor": 58,
-        "ceil": 236,
-        "gamma": 1.0,
-        "chroma": 0.05,
-        "feather": 1.0
-      }
+      "l_knots_P2_P25_P50_P75_P98": [
+        9.0,
+        18.0,
+        35.0,
+        56.0,
+        79.0
+      ],
+      "chroma_scale": 1.0,
+      "env_reflection_keep": 0.036
     },
     "slate": {
       "name": "亚特兰蒂斯灰",
       "hex": "#3B4A5A",
-      "params": {
-        "floor": 16,
-        "ceil": 214,
-        "gamma": 1.65,
-        "chroma": 0.1,
-        "feather": 1.0
-      }
+      "l_knots_P2_P25_P50_P75_P98": [
+        7.0,
+        14.0,
+        29.0,
+        50.0,
+        76.0
+      ],
+      "chroma_scale": 1.25,
+      "env_reflection_keep": 0.067
     },
     "blue": {
       "name": "极光蓝",
       "hex": "#1B4F8A",
-      "params": {
-        "floor": 14,
-        "ceil": 218,
-        "gamma": 1.6,
-        "chroma": 0.12,
-        "feather": 1.0
+      "l_knots_P2_P25_P50_P75_P98": [
+        9.0,
+        18.0,
+        36.0,
+        56.0,
+        84.0
+      ],
+      "chroma_scale": 1.0,
+      "env_reflection_keep": 0.15
+    }
+  },
+  "validation": {
+    "han-ev": {
+      "black": {
+        "outside_mask_mae": 0.976,
+        "outside_mask_p99": 3.33,
+        "inside_mask_mae": 12.75
+      },
+      "white": {
+        "outside_mask_mae": 1.069,
+        "outside_mask_p99": 4.33,
+        "inside_mask_mae": 113.84
+      },
+      "gray": {
+        "outside_mask_mae": 0.979,
+        "outside_mask_p99": 3.33,
+        "inside_mask_mae": 38.49
+      },
+      "slate": {
+        "outside_mask_mae": 0.978,
+        "outside_mask_p99": 3.33,
+        "inside_mask_mae": 28.87
+      },
+      "blue": {
+        "outside_mask_mae": 0.983,
+        "outside_mask_p99": 3.33,
+        "inside_mask_mae": 43.52
+      }
+    },
+    "seal": {
+      "black": {
+        "outside_mask_mae": 0.931,
+        "outside_mask_p99": 3.67,
+        "inside_mask_mae": 59.55
+      },
+      "white": {
+        "outside_mask_mae": 0.929,
+        "outside_mask_p99": 3.67,
+        "inside_mask_mae": 78.66
+      },
+      "gray": {
+        "outside_mask_mae": 0.928,
+        "outside_mask_p99": 3.67,
+        "inside_mask_mae": 35.83
+      },
+      "slate": {
+        "outside_mask_mae": 0.928,
+        "outside_mask_p99": 3.59,
+        "inside_mask_mae": 34.31
+      },
+      "blue": {
+        "outside_mask_mae": 0.925,
+        "outside_mask_p99": 3.67,
+        "inside_mask_mae": 19.87
       }
     }
   },
-  "outputs": [
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/han-ev/black.webp",
-      "car": "han-ev",
-      "color": "black",
-      "name": "玄空黑",
-      "hex": "#0B0D10",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「玄空黑」#0B0D10，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 玄空黑 #0B0D10 with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "8ad0cfeaa2242d82f9511a8d141e62da1bcd332674f6f5af3ea28d1293bece93"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/han-ev/white.webp",
-      "car": "han-ev",
-      "color": "white",
-      "name": "雪域白",
-      "hex": "#E8E6E1",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「雪域白」#E8E6E1，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 雪域白 #E8E6E1 with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "a4edaf4ac821e8c3210a8159f8fe575ea395171ddbbd7913dd960be0a1d243da"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/han-ev/gray.webp",
-      "car": "han-ev",
-      "color": "gray",
-      "name": "时光灰",
-      "hex": "#7A828C",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「时光灰」#7A828C，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 时光灰 #7A828C with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "48a36d4cb0474e82d40d623458668c32871a17b68b9184b24598d80c9142d7dc"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/han-ev/slate.webp",
-      "car": "han-ev",
-      "color": "slate",
-      "name": "亚特兰蒂斯灰",
-      "hex": "#3B4A5A",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「亚特兰蒂斯灰」#3B4A5A，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 亚特兰蒂斯灰 #3B4A5A with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "a98f85369e961e24939d736a0eb10d9d87d12dbda979f2dbabd446a551dec0e4"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/han-ev/blue.webp",
-      "car": "han-ev",
-      "color": "blue",
-      "name": "极光蓝",
-      "hex": "#1B4F8A",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「极光蓝」#1B4F8A，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 极光蓝 #1B4F8A with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "feb26f7ede784ec1c03cddeeeb9b65fb47ed78035f874b37b31dc1961d022a48"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/seal/black.webp",
-      "car": "seal",
-      "color": "black",
-      "name": "玄空黑",
-      "hex": "#0B0D10",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「玄空黑」#0B0D10，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 玄空黑 #0B0D10 with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "3a5302d38a3cdbd52e882af84756c537e4eb633b61d729660775103affee4f92"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/seal/white.webp",
-      "car": "seal",
-      "color": "white",
-      "name": "雪域白",
-      "hex": "#E8E6E1",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「雪域白」#E8E6E1，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 雪域白 #E8E6E1 with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "27850f550b7a1bae5e49bbf646db5fcc9ce26207582828705b7c1f88beb67a3c"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/seal/gray.webp",
-      "car": "seal",
-      "color": "gray",
-      "name": "时光灰",
-      "hex": "#7A828C",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「时光灰」#7A828C，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 时光灰 #7A828C with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "ac2d6a93e30b172096ca0768bd7531e530a2c9b1c115ed37e57fede62f79a8d2"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/seal/slate.webp",
-      "car": "seal",
-      "color": "slate",
-      "name": "亚特兰蒂斯灰",
-      "hex": "#3B4A5A",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「亚特兰蒂斯灰」#3B4A5A，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 亚特兰蒂斯灰 #3B4A5A with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "9871fbc5dfad1fe80078c33a5c1123cce80801d63c4fa2e34186c833fd1b68a2"
-    },
-    {
-      "file": "/home/user/projects/wangshu/apps/web/public/images/paints/seal/blue.webp",
-      "car": "seal",
-      "color": "blue",
-      "name": "极光蓝",
-      "hex": "#1B4F8A",
-      "prompt_zh": "以我上传的这张汽车海报为唯一基准图（必须保留原构图、机位、背景、山脉/道路、天空、地面反射、光影方向、车身造型、四门比例、轮毂、车窗、车灯、格栅、车标、车牌，全部不变），只对车身外覆盖件的车漆做局部重绘：把车漆改为「极光蓝」#1B4F8A，呈高光金属漆质感；保留原有环境反射和高光层次，不要变成死黑。除车漆颜色外，其他任何像素都不要改变。输出与原图完全相同的 1600x1000 构图和比例；不要新增文字、水印、人物、第二辆车；不要改变车型、车门数量、轮毂样式和背景。",
-      "prompt_en": "Use the uploaded car poster as the ONLY reference. Preserve exactly: composition, camera angle, background, mountains/road, sky, ground reflection, lighting direction, four-door body shape, wheels, windows, lights, grille, badges, license plate, and shadows. Repaint ONLY the exterior body paint to 极光蓝 #1B4F8A with a glossy metallic finish, keeping the original reflections and highlights; do not turn it into flat black. Do not change any other pixel. Output the same 1600x1000 crop and aspect ratio. No added text, watermark, people, or second car; do not change the model, door count, wheel design, or background.",
-      "sha256": "5832ca46acc4c9256db125eb294ee56400ce9db12e61ddeba2b615b47ff96284"
-    }
-  ],
-  "wsl_project_images_root": "/home/user/projects/wangshu/apps/web/public/images",
-  "processing_notes": [
-    "未使用生成式 inpainting：本环境的图像编辑接口不支持局部 mask / denoise / 多候选，整图 img2img 会改动轮毂、车标等细节。",
-    "改用确定性 Lab 域重映射：亮度重映射 mask 只覆盖车身覆盖件；色度替换 mask 覆盖整车多边形（含暗部环境反射）。",
-    "两个权重都为 0 的区域（背景、玻璃）在 RGB 数组层面 bitwise 不变；有损 WebP(q=85) 导出后非漆面区 MAE 约 0.5-0.8、PSNR 45-47dB。",
-    "原图暗部的树影/山影反射按要求保留，因此浅色车漆上仍可见深色反射，属保留环境反射而非换色遗漏。",
-    "脚本：paint_swap.py（换色+导出+验收）与 make_masks.py（mask 生成），位于 Windows 工作区 paint-swap/ 目录。"
-  ]
+  "export": {
+    "format": "WEBP",
+    "quality": 85,
+    "color_space": "sRGB",
+    "size": "1600x1000",
+    "alpha": false,
+    "resize_or_crop": false
+  },
+  "note": "重做版：旧 mask（连通域+模糊膨胀）导致轮毂被染色、车底漏线、引擎盖前沿被误挖；本版重做 mask 并逐项校验。旧目录备份于 paints.bak-20261113"
 }

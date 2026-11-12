@@ -75,7 +75,7 @@
 
 ## 9. 当前已交付
 
-- 海豹 r1：apps/web/public/images/paints/seal/（B 套，已入库）
+- 海豹 r1：apps/web/public/images/paints/seal/（确定性 v3，已入库）
 - 汉 EV s7：apps/web/public/images/paints/han-ev/（确定性 A 套，已入库）
-- 海豹 A 套备份：apps/web/public/images/paints/seal-det/
+- 海豹旧 A 套备份：apps/web/public/images/paints/seal-det/
 - 两套差异与指标：docs/IMAGE-COMPARISON.md
