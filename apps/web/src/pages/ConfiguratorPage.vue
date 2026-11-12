@@ -23,9 +23,12 @@ const store = useConfiguratorStore();
 const slug = computed(() => String(route.params.slug ?? ""));
 const modelName = computed(() => store.catalog?.model.name ?? "车鉴");
 const heroImage = computed(() => assetUrl(store.catalog?.model.heroImage ?? "/images/seal-hero.webp"));
+const PAINT_IMAGE_VERSION = "20261113-v3";
 const paintImage = computed(() => {
   const image = store.selectedPaint?.image;
-  return image ? assetUrl(image) : heroImage.value;
+  if (!image) return heroImage.value;
+  const base = assetUrl(image);
+  return base + (base.includes("?") ? "&" : "?") + "v=" + PAINT_IMAGE_VERSION;
 });
 
 function readDisplayMode(): DisplayMode {
