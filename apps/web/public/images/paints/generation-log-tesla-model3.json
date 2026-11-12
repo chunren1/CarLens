@@ -1,0 +1,88 @@
+{
+  "generated_at": "2026-11-13T03:22:48+08:00",
+  "slug": "tesla-model3",
+  "pipeline": "deterministic Lab-domain paint recolor (no generative inpainting, no text-to-image)",
+  "base_image": {
+    "path": "/images/brands/tesla-model3.webp",
+    "sha256": "dc5962c8b4d0376948a799871483e04411741dcd34179b4affefef5898d3bd27",
+    "size": [
+      1600,
+      1000
+    ]
+  },
+  "mask": {
+    "path": "/images/masks/tesla-model3.png",
+    "coverage_pct": 11.81,
+    "alpha_png_sha256": "23445ca817baf57f233344845e8b22e6007d49b4947f303be5f4e7cf840b8202",
+    "note": "single mask shared by all paint variants of this model"
+  },
+  "export": {
+    "format": "WEBP",
+    "quality": 93,
+    "color_space": "sRGB",
+    "size": "1600x1000",
+    "alpha": false,
+    "resize_or_crop": false
+  },
+  "colors": {
+    "black": {
+      "name": "玄空黑",
+      "hex": "#0B0D10",
+      "l_knots_P2_P25_P50_P75_P98": [
+        1.2,
+        2.6,
+        6.5,
+        18.0,
+        64.0
+      ],
+      "chroma_scale": 1.0
+    },
+    "white": {
+      "name": "雪域白",
+      "hex": "#E8E6E1",
+      "l_knots_P2_P25_P50_P75_P98": [
+        27.0,
+        49.0,
+        70.0,
+        86.0,
+        94.0
+      ],
+      "chroma_scale": 0.7
+    },
+    "gray": {
+      "name": "时光灰",
+      "hex": "#7A828C",
+      "l_knots_P2_P25_P50_P75_P98": [
+        9.0,
+        18.0,
+        35.0,
+        56.0,
+        79.0
+      ],
+      "chroma_scale": 1.0
+    }
+  },
+  "validation": {
+    "black": {
+      "outside_mask_mae": 0.61,
+      "outside_mask_p99": 2.67,
+      "inside_mask_mae": 39.3
+    },
+    "white": {
+      "outside_mask_mae": 0.61,
+      "outside_mask_p99": 2.67,
+      "inside_mask_mae": 86.77
+    },
+    "gray": {
+      "outside_mask_mae": 0.612,
+      "outside_mask_p99": 2.67,
+      "inside_mask_mae": 23.05
+    },
+    "lossless_check": {
+      "outside_mask_mae": 0.0,
+      "outside_mask_max": 0,
+      "meaning": "algorithm-level proof that non-paint pixels are untouched"
+    }
+  },
+  "note": "非漆面像素在算法层为 0 改动（无损验证 MAE=0.0000, max=0）；下表 MAE 为 WebP q93 压缩后的实测值。q93 而非 q85，是为了让压缩误差也满足 MAE<1.2 / P99<5 的验收线。"
+}

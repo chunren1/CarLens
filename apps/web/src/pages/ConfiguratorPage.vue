@@ -23,7 +23,7 @@ const store = useConfiguratorStore();
 const slug = computed(() => String(route.params.slug ?? ""));
 const modelName = computed(() => store.catalog?.model.name ?? "车鉴");
 const heroImage = computed(() => assetUrl(store.catalog?.model.heroImage ?? "/images/seal-hero.webp"));
-const PAINT_IMAGE_VERSION = "20261113-v3";
+const PAINT_IMAGE_VERSION = "20261113-v4";
 const paintImage = computed(() => {
   const image = store.selectedPaint?.image;
   if (!image) return heroImage.value;
