@@ -236,7 +236,7 @@ onMounted(() => {
   padding: var(--space-6);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  background: linear-gradient(160deg, rgba(215, 25, 32, 0.08), transparent 60%), var(--surface);
+  background: linear-gradient(160deg, rgba(78, 177, 221, 0.08), transparent 60%), var(--surface);
 }
 
 .side__title {

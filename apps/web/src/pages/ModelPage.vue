@@ -257,7 +257,7 @@ const emptyTitle = computed(() =>
 }
 
 .trim-card:hover {
-  border-color: rgba(215, 25, 32, 0.45);
+  border-color: rgba(78, 177, 221, 0.45);
   transform: translateY(-2px);
 }
 

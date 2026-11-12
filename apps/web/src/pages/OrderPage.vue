@@ -251,7 +251,7 @@ const statusHint = computed(() => {
 }
 
 .order-hint--pending {
-  border-color: rgba(215, 25, 32, 0.4);
+  border-color: rgba(78, 177, 221, 0.4);
   background: var(--accent-soft);
   color: var(--accent);
 }

@@ -6,7 +6,7 @@ import { RouterLink } from "vue-router";
   <footer class="site-footer">
     <div class="container site-footer__grid">
       <div class="site-footer__brand">
-        <p class="site-footer__logo">车鉴 <span>CarLens</span></p>
+        <p class="site-footer__logo"><img src="/images/brand/logo-carlens.webp" alt="车鉴 CarLens" class="site-footer__logo-img" /></p>
         <p class="site-footer__claim">多品牌的车，放在一起讲清楚。</p>
         <p class="site-footer__note">
           毕业设计演示 · 多品牌汽车聚合平台，非任何汽车品牌官方网站。价格、门店与订单均为演示数据，支付为模拟网关。
@@ -68,17 +68,13 @@ import { RouterLink } from "vue-router";
 }
 
 .site-footer__logo {
-  font-family: var(--font-display);
-  font-size: 20px;
-  letter-spacing: 0.14em;
+  margin: 0;
 }
 
-.site-footer__logo span {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.32em;
-  color: var(--muted);
-  margin-left: var(--space-2);
+.site-footer__logo-img {
+  display: block;
+  width: auto;
+  height: 34px;
 }
 
 .site-footer__claim {

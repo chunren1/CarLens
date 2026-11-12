@@ -244,14 +244,14 @@ const steps = [
 .option--active {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(215, 25, 32, 0.07);
+  background: rgba(78, 177, 221, 0.07);
 }
 
 .finance-result {
   padding: var(--space-6);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  background: linear-gradient(165deg, rgba(215, 25, 32, 0.08), transparent 55%), var(--surface);
+  background: linear-gradient(165deg, rgba(78, 177, 221, 0.08), transparent 55%), var(--surface);
 }
 
 .finance-result__price {

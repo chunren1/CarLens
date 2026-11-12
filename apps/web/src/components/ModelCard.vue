@@ -58,7 +58,7 @@ defineProps<{ model: ModelSummary }>();
 }
 
 .model-card:hover {
-  border-color: rgba(215, 25, 32, 0.45);
+  border-color: rgba(78, 177, 221, 0.45);
   transform: translateY(-3px);
 }
 

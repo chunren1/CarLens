@@ -7,6 +7,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 HOST="${DEPLOY_HOST:?请设置 DEPLOY_HOST，例如 deploy@your-server-ip}"
+WEB_HOST="${HOST#*@}"
 REMOTE_APP=/opt/wangshu/app
 REMOTE_DATA=/opt/wangshu/data
 REMOTE_WEB=/var/www/wangshu
@@ -35,5 +36,5 @@ fi
 ssh "$HOST" "sudo systemctl restart wangshu-api && sleep 3 && curl --max-time 8 -fsS http://127.0.0.1:3100/api/health"
 
 echo
-echo "部署完成：http://$HOST/"
-echo "健康检查：curl --max-time 8 http://$HOST/api/health"
+echo "部署完成：http://$WEB_HOST/"
+echo "健康检查：curl --max-time 8 http://$WEB_HOST/api/health"

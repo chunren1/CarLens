@@ -252,7 +252,7 @@ onMounted(() => {
 .wizard__option:hover,
 .wizard__option--active {
   border-color: var(--accent);
-  background: rgba(215, 25, 32, 0.07);
+  background: rgba(78, 177, 221, 0.07);
 }
 
 .wizard__actions {

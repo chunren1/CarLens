@@ -124,7 +124,7 @@ onMounted(() => {
 .city-filter__btn--active {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(215, 25, 32, 0.06);
+  background: rgba(78, 177, 221, 0.06);
 }
 
 .store-grid {
@@ -192,7 +192,7 @@ onMounted(() => {
   padding: var(--space-6);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(215, 25, 32, 0.06), transparent 60%);
+  background: linear-gradient(135deg, rgba(78, 177, 221, 0.06), transparent 60%);
 }
 
 .stores-note__actions {

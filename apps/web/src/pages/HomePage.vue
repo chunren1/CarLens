@@ -579,7 +579,7 @@ const news = [
 }
 
 .service-card:hover {
-  border-color: rgba(215, 25, 32, 0.5);
+  border-color: rgba(78, 177, 221, 0.5);
   transform: translateY(-2px);
 }
 
@@ -706,7 +706,7 @@ const news = [
   margin-top: var(--space-8);
   border-block: 1px solid var(--line);
   background:
-    radial-gradient(900px 260px at 20% 50%, rgba(215, 25, 32, 0.09), transparent 70%),
+    radial-gradient(900px 260px at 20% 50%, rgba(78, 177, 221, 0.09), transparent 70%),
     var(--surface);
 }
 

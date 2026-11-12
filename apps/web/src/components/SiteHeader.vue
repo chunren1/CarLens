@@ -54,7 +54,7 @@ watch(
   <header class="site-header">
     <div class="container site-header__inner">
       <RouterLink to="/" class="brand" aria-label="车鉴首页">
-        <span class="brand__mark" aria-hidden="true">鉴</span>
+        <img class="brand__mark" src="/images/brand/logo-mark.webp" width="40" height="40" alt="" aria-hidden="true" />
         <span class="brand__text">
           <span class="brand__cn">车鉴</span>
           <span class="brand__en">CarLens</span>
@@ -160,18 +160,11 @@ watch(
 }
 
 .brand__mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   width: 40px;
-  height: 36px;
-  border: 1px solid rgba(215, 25, 32, 0.5);
-  border-radius: 50%;
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .brand__text {
@@ -264,7 +257,7 @@ watch(
 
 .site-header__demo {
   padding: 2px 8px;
-  border: 1px solid rgba(215, 25, 32, 0.28);
+  border: 1px solid rgba(78, 177, 221, 0.28);
   border-radius: 6px;
   color: var(--accent);
   background: var(--accent-soft);

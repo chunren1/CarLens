@@ -290,7 +290,7 @@ onMounted(async () => {
 }
 
 .status--pending_payment {
-  border-color: rgba(215, 25, 32, 0.5);
+  border-color: rgba(78, 177, 221, 0.5);
   color: var(--accent);
 }
 

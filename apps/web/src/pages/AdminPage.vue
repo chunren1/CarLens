@@ -638,7 +638,7 @@ onMounted(async () => {
 
 .admin-nav__btn:hover,
 .admin-nav__btn--active {
-  background: rgba(215, 25, 32, 0.08);
+  background: rgba(78, 177, 221, 0.08);
   color: var(--accent);
 }
 
@@ -807,7 +807,7 @@ onMounted(async () => {
 }
 
 .status--pending_payment {
-  border-color: rgba(215, 25, 32, 0.5);
+  border-color: rgba(78, 177, 221, 0.5);
   color: var(--accent);
 }
 

@@ -176,15 +176,15 @@ async function pay(): Promise<void> {
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
-  border: 1px solid rgba(215, 25, 32, 0.55);
+  border: 1px solid rgba(78, 177, 221, 0.55);
   border-radius: var(--radius-md);
   background:
     repeating-linear-gradient(
       135deg,
-      rgba(215, 25, 32, 0.06) 0 12px,
+      rgba(78, 177, 221, 0.06) 0 12px,
       transparent 12px 24px
     ),
-    rgba(215, 25, 32, 0.06);
+    rgba(78, 177, 221, 0.06);
   color: var(--accent);
   font-size: 13px;
 }
@@ -205,7 +205,7 @@ async function pay(): Promise<void> {
   height: 8px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(215, 25, 32, 0.18);
+  box-shadow: 0 0 0 4px rgba(78, 177, 221, 0.18);
 }
 
 .pay-grid {

@@ -226,12 +226,12 @@ const rangeKm = computed(() => {
 }
 
 .trim:hover {
-  border-color: rgba(215, 25, 32, 0.4);
+  border-color: rgba(78, 177, 221, 0.4);
 }
 
 .trim--active {
   border-color: var(--accent);
-  background: rgba(215, 25, 32, 0.08);
+  background: rgba(78, 177, 221, 0.08);
 }
 
 .trim__top {
@@ -284,7 +284,7 @@ const rangeKm = computed(() => {
 
 .swatch--active {
   border-color: var(--accent);
-  background: rgba(215, 25, 32, 0.08);
+  background: rgba(78, 177, 221, 0.08);
 }
 
 .swatch__dot {
@@ -338,7 +338,7 @@ const rangeKm = computed(() => {
 
 .wheel--active {
   border-color: var(--accent);
-  background: rgba(215, 25, 32, 0.08);
+  background: rgba(78, 177, 221, 0.08);
 }
 
 .wheel__disc {

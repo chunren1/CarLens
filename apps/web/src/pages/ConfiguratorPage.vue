@@ -564,7 +564,7 @@ function handleOrder(): void {
   z-index: 60;
   transform: translateX(-50%);
   padding: 10px 20px;
-  border: 1px solid rgba(215, 25, 32, 0.35);
+  border: 1px solid rgba(78, 177, 221, 0.35);
   border-radius: var(--radius-pill);
   background: rgba(17, 21, 26, 0.92);
   color: #fff;
