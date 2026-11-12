@@ -1,0 +1,13 @@
+{
+  "seal": {
+    "selected": "other-ai",
+    "path": "/images/paints/seal",
+    "deterministic_fallback": "/images/paints/seal-det",
+    "reason": "视觉更接近真实车漆；非漆面 MAE 1.2–2.5，不作为 bitwise 证明"
+  },
+  "han-ev": {
+    "selected": "deterministic",
+    "path": "/images/paints/han-ev",
+    "reason": "只有确定性版本；非漆面 MAE 约 0.5，保留树影反射"
+  }
+}

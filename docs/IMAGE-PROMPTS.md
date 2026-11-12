@@ -72,3 +72,10 @@
 ## 8. 交付后怎么接
 
 按目录命名放好后，系统通过 model_paint_images 表映射颜色；没有图的颜色自动回退到 heroImage。入库时只使用 reviewed=1 的图。
+
+## 9. 当前已交付
+
+- 海豹 r1：apps/web/public/images/paints/seal/（B 套，已入库）
+- 汉 EV s7：apps/web/public/images/paints/han-ev/（确定性 A 套，已入库）
+- 海豹 A 套备份：apps/web/public/images/paints/seal-det/
+- 两套差异与指标：docs/IMAGE-COMPARISON.md

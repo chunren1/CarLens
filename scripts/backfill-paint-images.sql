@@ -1,0 +1,12 @@
+BEGIN;
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (1,1,'/images/paints/seal/black.webp','other-ai',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (1,2,'/images/paints/seal/white.webp','other-ai',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (1,3,'/images/paints/seal/gray.webp','other-ai',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (1,4,'/images/paints/seal/slate.webp','other-ai',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (1,5,'/images/paints/seal/blue.webp','other-ai',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (2,1,'/images/paints/han-ev/black.webp','deterministic',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (2,2,'/images/paints/han-ev/white.webp','deterministic',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (2,3,'/images/paints/han-ev/gray.webp','deterministic',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (2,4,'/images/paints/han-ev/slate.webp','deterministic',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+insert or replace into model_paint_images (model_id,paint_id,image_path,source,prompt,reviewed,created_at) values (2,5,'/images/paints/han-ev/blue.webp','deterministic',NULL,1,'2026-11-12T17:41:35.041016+00:00');
+COMMIT;
