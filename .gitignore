@@ -44,3 +44,6 @@ scripts/paint-black.mjs
 scripts/r1-blue-test.mjs
 scripts/ref-imgs.mjs
 scripts/wait-live.mjs
+
+# 学校规范/模板原件，仅本地参考
+docs/thesis/source/

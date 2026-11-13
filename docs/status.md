@@ -1,6 +1,6 @@
 # 项目状态（车鉴 CarLens · 多品牌汽车配置聚合与在线报价）
 
-> 更新时间：2026-11-12 21:15（Asia/Shanghai）
+> 更新时间：2026-11-13 14:00（Asia/Shanghai）；最新验收见 FINAL-CHECKLIST.md
 > 目标：可上线、可答辩演示的完整系统；白底官网 + 共用四门轿车 3D 配置器 + 车型海报轮播。
 
 ## 当前运行
@@ -10,7 +10,7 @@
 - 部署：docs/deploy-ip.md；脚本：scripts/deploy-ip.sh
 - 本机：API 3100 / Web 5173；线上 nginx 80
 - 数据库：**20 款车 / 10 品牌**、45 版本、5 车漆、3 轮毂、2 内饰、3 选装包、4 门店、4 新闻
-- 图片：2 张车型封面海报（海豹 / 汉 EV）+ **20 张跨品牌官方海报**（BYD 10 + 特斯拉/小鹏/极氪/小米/蔚来/理想/问界/零跑/埃安 10）；封面为本地 WebP，配置器另加载共用 3D 模型
+- 图片：20 张跨品牌官方海报；**7 款车 / 25 张** 2D 换色图（海豹/汉 EV 各 5 色，极氪 001/Model 3/G6/P7+/YU7 各 3 色）；配置器另加载共用 3D 模型
 - 线上演示账号：`demo@wangshu.test` / `（演示口令，见现场）`；管理员：`admin@wangshu.test`（口令见本机 `.secrets/admin-password`，不入库）
 - 线上数据：3 笔订单（含 1 笔 demo 用户已支付）+ 1 条试驾线索；后台实收定金已按 payments 汇总
 - 截图：docs/screens/live-home-jisu.png、live-brand-jisu.png、live-home-mobile-jisu.png、3d-live-*.png、2d-live-config.png
@@ -26,17 +26,17 @@
 - 移动端：390 全页面审计 + 360 关键页复验（首页、车型、详情、配置器、对比、向导、海报、登录、门店、试驾、金融、服务、关于、新闻、致谢）；汉堡菜单 + 抽屉；对比页改为移动端卡片；轮播隐藏 dots 改用箭头 + 计数。
 - 「了解我们」：比亚迪品牌/技术/数字/原则 + 非官方声明
 - 账户：注册/登录/会话/我的订单；订单可取消待支付
-- 后台：概览/订单/线索/车型版本价/门店/新闻 CRUD
-- API：18 表，**11 个测试文件 / 44 tests 全绿**
+- 后台：概览/订单/线索/车型版本价/门店/新闻 CRUD + 换色图审核
+- API：18 表，**12 个测试文件 / 45 tests 全绿**；E2E 2 条
 - Web：`vue-tsc` + `vite build` 通过；海报页 1440/390 已检查
-- 部署：https://ziphare.me/（Cloudflare + LE，HTTP 301→HTTPS，HSTS）；每日 04:20 SQLite 备份；systemd Restart=always
+- 部署：https://ziphare.me/（Cloudflare + LE，HTTP 301→HTTPS，HSTS）；每日 03:30 SQLite 备份（cron，含 integrity_check / health / 14 天保留）；systemd Restart=always
 - 2026-11-12：nginx `/models` P0 修复保留；白底/图片/轮播改版上线
 
 ## 已知问题
 
 1. 车型图/海报来自比亚迪官网，仅毕设演示，版权归比亚迪；公开传播需注意授权。
 2. 配置器只做选项/价格联动；新增车型需补一张 4 门海报 `heroImage` + seed 数据。
-3. 线上已 HTTPS；`COOKIE_SECURE=true`，IP HTTP 登录失败是预期行为。CSP 仍缺。
+3. 线上已 HTTPS；`COOKIE_SECURE=true`，IP HTTP 登录失败是预期行为。CSP 已上线。
 4. 3D 只做技术/选配示意，车型封面以官方海报为准；订单退款、优惠券、真实支付不在 Demo 范围。
 5. 公司内容为演示，非比亚迪官方；若用于公开传播需注意商标/素材授权。
 6. 安全整改（2026-11-12 21:10）：已轮换线上管理员口令（`.secrets/admin-password`，不公开）、seed 生产 guard、支付归属校验、登录/注册/下单/试驾限流、后台实收定金口径；44 tests。已补：Git 入仓、CSP、订单幂等键、试驾日期/时段校验、后台移动端、r1.glb 清理。详见 `docs/REVIEW-20261112-v06.md` 与 `docs/REVIEW-20261112-v06-ADDENDUM.md`。
@@ -57,7 +57,7 @@
 
 ### P3 上线
 - ✅ IP 部署、备份、systemd
-- ⏳ HTTPS/域名（实名后）
+- ✅ HTTPS/域名（2026-11-12）
 
 ## 参考
 
