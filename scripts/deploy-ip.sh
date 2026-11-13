@@ -27,6 +27,9 @@ ssh "$HOST" "sudo mkdir -p $REMOTE_APP $REMOTE_DATA $REMOTE_WEB && sudo chown -R
 echo "==> 4/5 上传（API / Web）"
 rsync -az /tmp/wangshu-api-deploy/ "$HOST:$REMOTE_APP/"
 rsync -az apps/web/dist/ "$HOST:$REMOTE_WEB/"
+ssh "$HOST" "mkdir -p $REMOTE_APP/scripts"
+scp -q scripts/backup-db-local.sh "$HOST:$REMOTE_APP/scripts/backup-db-local.sh"
+ssh "$HOST" "chmod +x $REMOTE_APP/scripts/backup-db-local.sh"
 
 echo "==> 5/5 首次种子与重启"
 if ! ssh "$HOST" "test -f $REMOTE_DATA/wangshu.db"; then
