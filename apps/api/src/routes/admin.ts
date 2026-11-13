@@ -2,7 +2,7 @@ import type { FastifyInstance, FastifyRequest } from "fastify";
 import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { getUserByToken, SESSION_COOKIE } from "../auth/session";
-import { appointments, leads, models, news, orders, payments, stores, trims } from "../db/schema";
+import { appointments, leads, modelPaintImages, models, news, orders, paints, payments, stores, trims } from "../db/schema";
 import { ApiError } from "../errors";
 import { findOrderRow, toOrderDto } from "../repositories/orders";
 
@@ -27,6 +27,33 @@ function requireAdmin(app: FastifyInstance, request: FastifyRequest) {
     throw new ApiError("FORBIDDEN", "没有后台权限", 403);
   }
   return user;
+}
+
+function paintImageRows(app: FastifyInstance) {
+  const modelRows = app.db.select().from(models).all();
+  const paintRows = app.db.select().from(paints).all();
+  const modelById = new Map(modelRows.map((row) => [row.id, row]));
+  const paintById = new Map(paintRows.map((row) => [row.id, row]));
+  return app.db
+    .select()
+    .from(modelPaintImages)
+    .all()
+    .map((row) => {
+      const model = modelById.get(row.modelId);
+      const paint = paintById.get(row.paintId);
+      return {
+        id: row.id,
+        modelId: row.modelId,
+        modelSlug: model?.slug ?? "?",
+        modelName: model?.name ?? "?",
+        paintId: row.paintId,
+        paintName: paint?.name ?? "?",
+        imagePath: row.imagePath,
+        source: row.source,
+        reviewed: row.reviewed,
+        createdAt: row.createdAt,
+      };
+    });
 }
 
 export async function adminRoutes(app: FastifyInstance): Promise<void> {
@@ -199,6 +226,27 @@ export async function adminRoutes(app: FastifyInstance): Promise<void> {
     if (!article) throw new ApiError("NEWS_NOT_FOUND", "文章不存在", 404);
     app.db.delete(news).where(eq(news.id, id)).run();
     return { ok: true };
+  });
+
+  app.get("/admin/paint-images", async (request) => {
+    requireAdmin(app, request);
+    return paintImageRows(app);
+  });
+
+  app.patch("/admin/paint-images/:id", async (request) => {
+    requireAdmin(app, request);
+    const { id } = z.object({ id: z.coerce.number().int().positive() }).parse(request.params);
+    const body = z.object({
+      reviewed: z.boolean().optional(),
+      imagePath: z.string().startsWith("/images/paints/").max(200).optional(),
+    }).parse(request.body ?? {});
+    const row = app.db.select().from(modelPaintImages).where(eq(modelPaintImages.id, id)).get();
+    if (!row) throw new ApiError("PAINT_IMAGE_NOT_FOUND", "换色图不存在", 404);
+    app.db.update(modelPaintImages).set({
+      reviewed: body.reviewed === undefined ? row.reviewed : (body.reviewed ? 1 : 0),
+      imagePath: body.imagePath ?? row.imagePath,
+    }).where(eq(modelPaintImages.id, id)).run();
+    return paintImageRows(app).find((item) => item.id === id);
   });
 
   app.get("/admin/leads", async (request) => {

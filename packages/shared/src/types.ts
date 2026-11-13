@@ -226,6 +226,20 @@ export interface AdminModel {
   trims: AdminTrim[];
 }
 
+
+export interface AdminPaintImage {
+  id: number;
+  modelId: number;
+  modelSlug: string;
+  modelName: string;
+  paintId: number;
+  paintName: string;
+  imagePath: string;
+  source: string;
+  reviewed: number;
+  createdAt: string;
+}
+
 export interface NewsArticle {
   id: number;
   slug: string;

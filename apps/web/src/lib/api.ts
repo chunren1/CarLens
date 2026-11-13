@@ -1,6 +1,7 @@
 import type {
   AdminLead,
   AdminModel,
+  AdminPaintImage,
   AdminSummary,
   AdminTrim,
   AuthUser,
@@ -183,6 +184,12 @@ export const api = {
     request<{ ok: boolean }>("/admin/news/" + id, { method: "DELETE" }),
   adminModels: (): Promise<AdminModel[]> => request<AdminModel[]>("/admin/models"),
   adminStores: (): Promise<Store[]> => request<Store[]>("/admin/stores"),
+  adminPaintImages: (): Promise<AdminPaintImage[]> => request<AdminPaintImage[]>("/admin/paint-images"),
+  updateAdminPaintImage: (id: number, input: { reviewed?: boolean; imagePath?: string }): Promise<AdminPaintImage> =>
+    request<AdminPaintImage>("/admin/paint-images/" + id, {
+      method: "PATCH",
+      body: JSON.stringify(input),
+    }),
   updateAdminTrim: (id: number, price: number): Promise<AdminTrim> =>
     request<AdminTrim>("/admin/trims/" + id, {
       method: "PATCH",

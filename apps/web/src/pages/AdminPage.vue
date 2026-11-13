@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref, shallowRef } from "vue";
 import { RouterLink, useRouter } from "vue-router";
-import type { AdminLead, AdminModel, AdminSummary, AdminTrim, NewsArticle, Order, OrderStatus, Store } from "@wangshu/shared";
+import type { AdminLead, AdminModel, AdminPaintImage, AdminSummary, AdminTrim, NewsArticle, Order, OrderStatus, Store } from "@wangshu/shared";
 import { useAuthStore } from "../stores/auth";
 import { api, errorMessage } from "../lib/api";
 import { money } from "../lib/format";
 
 const auth = useAuthStore();
 const router = useRouter();
-const tab = ref<"overview" | "orders" | "leads" | "models" | "stores" | "news">("overview");
+const tab = ref<"overview" | "orders" | "leads" | "models" | "stores" | "news" | "paint">("overview");
 const ready = ref(false);
 const denied = ref(false);
 const loading = ref(false);
@@ -20,6 +20,7 @@ const leads = shallowRef<AdminLead[]>([]);
 const adminModels = shallowRef<AdminModel[]>([]);
 const adminStores = shallowRef<Store[]>([]);
 const adminNews = shallowRef<NewsArticle[]>([]);
+const adminPaintImages = shallowRef<AdminPaintImage[]>([]);
 const newsForm = reactive({
   id: 0,
   title: "",
@@ -52,19 +53,21 @@ const tabs = [
   { id: "models" as const, label: "车型价格" },
   { id: "stores" as const, label: "门店" },
   { id: "news" as const, label: "新闻" },
+  { id: "paint" as const, label: "换色图" },
 ];
 
 async function loadAll(): Promise<void> {
   loading.value = true;
   error.value = "";
   try {
-    const [nextSummary, nextOrders, nextLeads, nextModels, nextStores, nextNews] = await Promise.all([
+    const [nextSummary, nextOrders, nextLeads, nextModels, nextStores, nextNews, nextPaintImages] = await Promise.all([
       api.adminSummary(),
       api.adminOrders(),
       api.adminLeads(),
       api.adminModels(),
       api.adminStores(),
       api.adminNews(),
+      api.adminPaintImages(),
     ]);
     summary.value = nextSummary;
     orders.value = nextOrders;
@@ -72,6 +75,7 @@ async function loadAll(): Promise<void> {
     adminModels.value = nextModels;
     adminStores.value = nextStores;
     adminNews.value = nextNews;
+    adminPaintImages.value = nextPaintImages;
     trimDrafts.value = Object.fromEntries(
       nextModels.flatMap((model) => model.trims.map((trim) => [trim.id, String(trim.price / 1_000_000)])),
     );
@@ -195,6 +199,21 @@ async function saveStore(store: Store): Promise<void> {
     await api.updateAdminStore(store.id, draft);
     await loadAll();
     notice.value = `${store.name} 已更新`;
+  } catch (err) {
+    error.value = errorMessage(err);
+  } finally {
+    updating.value = "";
+  }
+}
+
+async function togglePaintImage(item: AdminPaintImage): Promise<void> {
+  updating.value = "paint-" + item.id;
+  error.value = "";
+  notice.value = "";
+  try {
+    await api.updateAdminPaintImage(item.id, { reviewed: item.reviewed !== 1 });
+    await loadAll();
+    notice.value = item.modelName + " " + item.paintName + " 审核状态已更新";
   } catch (err) {
     error.value = errorMessage(err);
   } finally {
@@ -456,6 +475,50 @@ onMounted(async () => {
                 <button v-if="newsForm.id > 0" type="button" class="btn btn--ghost btn--sm" @click="resetNewsForm">取消编辑</button>
               </div>
             </form>
+          </div>
+        </template>
+
+        <template v-else-if="tab === 'paint'">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">换色图</p>
+              <h2 class="section-title">海报审核</h2>
+            </div>
+            <button type="button" class="btn btn--ghost btn--sm" :disabled="loading" @click="loadAll">刷新</button>
+          </div>
+          <p class="admin-hint">只把 reviewed=1 的图返回给 2D 配置器；取消审核即可回退封面。</p>
+
+          <div v-if="loading" class="admin-state">正在读取换色图…</div>
+          <div v-else-if="adminPaintImages.length === 0" class="admin-state">还没有换色图。</div>
+          <div v-else class="admin-table-wrap">
+            <table class="admin-table admin-table--paint">
+              <thead>
+                <tr>
+                  <th>预览</th>
+                  <th>车型</th>
+                  <th>颜色</th>
+                  <th>来源</th>
+                  <th>路径</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in adminPaintImages" :key="item.id">
+                  <td><img :src="item.imagePath" :alt="item.modelName + ' ' + item.paintName" class="admin-paint-thumb" loading="lazy" /></td>
+                  <td>{{ item.modelName }}<br /><span class="admin-table__muted">{{ item.modelSlug }}</span></td>
+                  <td>{{ item.paintName }}</td>
+                  <td class="admin-table__muted">{{ item.source }}</td>
+                  <td class="admin-table__muted">{{ item.imagePath }}</td>
+                  <td><span class="status" :class="item.reviewed === 1 ? 'status--paid' : 'status--pending_payment'">{{ item.reviewed === 1 ? "已审核" : "待审核" }}</span></td>
+                  <td>
+                    <button type="button" class="btn btn--ghost btn--sm" :disabled="updating === 'paint-' + item.id" @click="togglePaintImage(item)">
+                      {{ item.reviewed === 1 ? "取消审核" : "通过审核" }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </template>
 
@@ -809,6 +872,18 @@ onMounted(async () => {
 .status--pending_payment {
   border-color: rgba(78, 177, 221, 0.5);
   color: var(--accent);
+}
+
+.admin-paint-thumb {
+  display: block;
+  width: 92px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.admin-table--paint {
+  min-width: 980px;
 }
 
 @media (max-width: 900px) {
