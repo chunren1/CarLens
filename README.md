@@ -45,6 +45,7 @@ Demo v1.0：**10 品牌 / 20 款车型**（比亚迪、特斯拉、小鹏、极�
 
 - [系统设计](docs/design.md)
 - [Demo v0.1 范围](docs/demo-v0.1.md)
+- [交接文档](HANDOFF.md)
 - [API 契约](docs/api-contract.md)
 - [E2E 与运维](docs/E2E-AND-OPS.md)
 - [数据库选型](docs/DATABASE-DECISION.md)

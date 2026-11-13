@@ -11,7 +11,7 @@
 - 用临时 SQLite（/tmp/wangshu-e2e.db），先 seed，再启动本地 API 3100 + Vite 5173
 - 跑 tests/e2e/core-flow.test.mjs
 - 结束后用 fuser 清理 3100/5173，避免残留进程
-- 需要 /usr/bin/google-chrome、.secrets/admin-password
+- 需要 Chrome（默认 /usr/bin/google-chrome，可用 E2E_CHROME_PATH 覆盖）和 .secrets/admin-password
 
 覆盖：
 

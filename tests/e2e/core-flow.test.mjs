@@ -4,10 +4,11 @@ import puppeteer from "puppeteer-core";
 
 const BASE = process.env.E2E_BASE_URL ?? "http://127.0.0.1:5173";
 const ADMIN_PASSWORD = process.env.E2E_ADMIN_PASSWORD ?? "";
+const CHROME = process.env.E2E_CHROME_PATH ?? "/usr/bin/google-chrome";
 
 async function launch() {
   return puppeteer.launch({
-    executablePath: "/usr/bin/google-chrome",
+    executablePath: CHROME,
     headless: true,
     args: ["--no-sandbox", "--disable-dev-shm-usage", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--window-size=1440,900"],
   });
