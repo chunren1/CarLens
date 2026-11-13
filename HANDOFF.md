@@ -56,7 +56,7 @@
 
 传输方式建议：U 盘、加密压缩包、1Password/私密网盘，不要发到公开群聊或提交 Git。
 
-没有 s7.glb 的后果：2D 配置器正常，3D 模式加载失败并回退海报。  
+没有 s7.glb 的后果：2D 配置器正常，3D 模式加载失败并回退海报。
 没有 basis 的后果：3D 的 KTX2 贴图可能不显示。
 
 如果原机器上还保留 s7 的源模型，路径是 /mnt/d/edge/generic_sedan_car.glb（仅原机器有）；新机器不必须有它，直接复制压缩后的 s7.glb 即可。
@@ -209,7 +209,7 @@ chmod 600 .secrets/admin-password .secrets/HANDOFF-PRIVATE.md
     D = 500_000
     Total = S + Tfull - Trelief + I + R
 
-实现：packages/shared/src/pricing.ts。  
+实现：packages/shared/src/pricing.ts。
 前端只传选项 id，API 重算，不信任前端金额。
 
 ### 订单
