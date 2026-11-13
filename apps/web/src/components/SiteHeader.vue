@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 
@@ -7,6 +7,12 @@ const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter();
 const menuOpen = ref(false);
+const configTarget = computed(() => {
+  if (route.name === "model" || route.name === "configurator") {
+    return "/configurator/" + String(route.params.slug ?? "r1");
+  }
+  return "/configurator/r1";
+});
 
 function closeMenu(): void {
   menuOpen.value = false;
@@ -79,7 +85,7 @@ watch(
         </template>
         <span class="site-header__demo">演示环境</span>
         <RouterLink to="/test-drive" class="btn btn--ghost btn--sm">预约试驾</RouterLink>
-        <RouterLink to="/configurator/r1" class="btn btn--primary btn--sm">开始配置</RouterLink>
+        <RouterLink :to="configTarget" class="btn btn--primary btn--sm">开始配置</RouterLink>
       </div>
 
       <button
@@ -87,7 +93,7 @@ watch(
         class="menu-toggle"
         :aria-expanded="menuOpen"
         aria-controls="mobile-menu"
-        aria-label="打开导航菜单"
+        :aria-label="menuOpen ? '关闭导航菜单' : '打开导航菜单'"
         @click="toggleMenu"
       >
         <span></span><span></span><span></span>

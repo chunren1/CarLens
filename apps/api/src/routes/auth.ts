@@ -97,9 +97,7 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
 
   app.get("/me", async (request) => {
     const user = getUserByToken(app.db, request.cookies[SESSION_COOKIE]);
-    if (!user) {
-      throw new ApiError("UNAUTHORIZED", "请先登录", 401);
-    }
-    return { user };
+    // 访客返回 200 + null，避免每个公开页面都产生一次 401 控制台噪声。
+    return { user: user ?? null };
   });
 }

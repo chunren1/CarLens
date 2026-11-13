@@ -66,6 +66,7 @@ const slides = computed<Slide[]>(() => {
 const active = ref(0);
 let timer: ReturnType<typeof setInterval> | null = null;
 let paused = false;
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 function stop(): void {
   if (timer !== null) {
@@ -76,9 +77,9 @@ function stop(): void {
 
 function start(): void {
   stop();
-  if (slides.value.length < 2) return;
+  if (slides.value.length < 2 || reduceMotion.matches) return;
   timer = setInterval(() => {
-    if (!paused) active.value = (active.value + 1) % slides.value.length;
+    if (!paused && !document.hidden) active.value = (active.value + 1) % slides.value.length;
   }, 6000);
 }
 

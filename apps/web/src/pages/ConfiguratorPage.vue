@@ -157,6 +157,7 @@ function handleOrder(): void {
 
 <template>
   <div class="configurator">
+    <h1 class="sr-only">{{ modelName }} 配置器</h1>
     <div class="container configurator__head">
       <nav class="crumbs" aria-label="面包屑">
         <RouterLink to="/models" class="crumbs__link">车型</RouterLink>

@@ -143,7 +143,7 @@ export const api = {
       method: "POST",
     }),
   listOrders: (): Promise<Order[]> => request<Order[]>("/orders"),
-  me: (): Promise<{ user: AuthUser }> => request<{ user: AuthUser }>("/me"),
+  me: (): Promise<{ user: AuthUser | null }> => request<{ user: AuthUser | null }>("/me"),
   login: (email: string, password: string): Promise<{ user: AuthUser }> =>
     request<{ user: AuthUser }>("/auth/login", {
       method: "POST",

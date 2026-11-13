@@ -90,7 +90,8 @@ describe("auth", () => {
         url: "/api/me",
         cookies: { ws_sid: token },
       });
-      expect(me.statusCode).toBe(401);
+      expect(me.statusCode).toBe(200);
+      expect(me.json<{ user: unknown }>().user).toBeNull();
     } finally {
       await ctx.close();
     }
