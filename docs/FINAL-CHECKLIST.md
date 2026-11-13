@@ -26,7 +26,7 @@
 - [x] /api/health 返回 db: ok
 - [x] 2026-11-13 备份实测 integrity=ok orders=3
 - [x] 部署脚本上传备份脚本，cron 已安装
-- [x] 本地已完成提交与安全检查，等待/执行推送
+- [x] 已推送 origin/main（2026-11-13）
 
 ## 仍需人工完成
 
