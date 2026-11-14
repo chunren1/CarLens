@@ -498,6 +498,8 @@ E2E 用 /tmp/wangshu-e2e.db，seed 临时库，不碰线上和本地开发库。
 
 ## 12. 文档索引
 
+- CONTRIBUTING.md：两人/两 agent 共同开发规范
+- CHANGELOG.md：双方改动记录
 - docs/FINAL-CHECKLIST.md：最终验收
 - docs/E2E-AND-OPS.md：E2E 与备份
 - docs/DATABASE-DECISION.md：为什么 SQLite
