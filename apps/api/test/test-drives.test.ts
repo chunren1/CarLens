@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { FastifyInstance } from "fastify";
-import { openApiContext } from "./helpers";
+import { futureSlot, openApiContext } from "./helpers";
 
 async function firstStoreId(app: FastifyInstance): Promise<number> {
   const response = await app.inject({ method: "GET", url: "/api/stores" });
@@ -23,7 +23,7 @@ describe("test drive appointments", () => {
           phone: "13800138000",
           modelSlug: "s7",
           storeId,
-          slot: "2026-11-15 10:00",
+          slot: futureSlot(1),
         },
       });
       expect(response.statusCode).toBe(201);
@@ -77,7 +77,7 @@ describe("test drive appointments", () => {
           phone: "123",
           modelSlug: "s7",
           storeId,
-          slot: "2026-11-15 10:00",
+          slot: futureSlot(1),
         },
       });
       expect(response.statusCode).toBe(400);
@@ -97,7 +97,7 @@ describe("test drive appointments", () => {
           phone: "13800138000",
           modelSlug: "s7",
           storeId: 99999,
-          slot: "2026-11-15 10:00",
+          slot: futureSlot(1),
         },
       });
       expect(response.statusCode).toBe(404);
@@ -118,7 +118,7 @@ describe("test drive appointments", () => {
           phone: "13800138000",
           modelSlug: "nope",
           storeId,
-          slot: "2026-11-15 10:00",
+          slot: futureSlot(1),
         },
       });
       expect(response.statusCode).toBe(404);

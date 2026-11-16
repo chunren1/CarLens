@@ -1,6 +1,6 @@
 import { beforeEach, afterEach, describe, expect, it } from "vitest";
 import type { Order, OptionCatalog, Store } from "@wangshu/shared";
-import { buildOrderPayload, fetchCatalog, openApiContext, TEST_ADMIN_PASSWORD, type ApiTestContext } from "./helpers";
+import { buildOrderPayload, fetchCatalog, futureSlot, openApiContext, TEST_ADMIN_PASSWORD, type ApiTestContext } from "./helpers";
 
 let ctx: ApiTestContext;
 let catalog: OptionCatalog;
@@ -129,7 +129,7 @@ describe("admin", () => {
         phone: "13800138000",
         modelSlug: "s7",
         storeId,
-        slot: "2026-11-20 10:00",
+        slot: futureSlot(1),
       },
     });
     expect(create.statusCode).toBe(201);

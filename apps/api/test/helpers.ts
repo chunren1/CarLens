@@ -9,6 +9,19 @@ import { seed } from "../src/db/seed";
 
 export const TEST_ADMIN_PASSWORD = "test-admin-password";
 
+/**
+ * 未来的试驾时间槽（YYYY-MM-DD HH:mm）。
+ *
+ * 后端只接受「不早于当前 5 分钟、不超过 90 天、9–18 点」的时间，写死日期会过期：
+ * 2026-11-15 10:00 的用例在 11-16 当天就变成"过去时间"，整条用例 400。
+ * 用例关心的是"合法时间能下单"，不是具体哪一天，所以按运行时刻推算。
+ */
+export function futureSlot(daysAhead = 1, hour = 10): string {
+  const date = new Date(Date.now() + daysAhead * 24 * 60 * 60 * 1000);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(hour)}:00`;
+}
+
 async function withAdminPassword<T>(fn: () => Promise<T>): Promise<T> {
   const previous = process.env.ADMIN_PASSWORD;
   process.env.ADMIN_PASSWORD = TEST_ADMIN_PASSWORD;
